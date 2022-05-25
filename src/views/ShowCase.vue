@@ -1,43 +1,47 @@
 <template>
   <AppLayout>
     <h1>Show Case</h1>
-    {{ selected }}
-    <div>
-      <select class="border p-6" v-model="selected.brand">
-        <option v-for="brand in brands" :value="brand" :key="brand">
-          {{ brand }}
-        </option>
-      </select>
-      <select class="border p-6" v-model="selected.model">
-        <option v-for="model in models" :value="model.model" :key="model">
-          {{ model }} ({{ model.model }})
-        </option>
-      </select>
-      <select class="border p-6" v-model="selected.nickname">
-        <option
-          v-for="nickname in nicknames"
-          :value="nickname.nickname"
-          :key="nickname"
-        >
-          {{ nickname.nickname }}
-        </option>
-      </select>
-      <button @click="onClick">fetch</button>
+    <div
+      class="w-full max-w-[640px] items-center rounded border-[1px] border-gray-200 p-4"
+    >
+      <Form @submit="onSubmit" :validation-schema="schema">
+        <TextField
+          type="text"
+          name="firstname"
+          placeholder="ชื่อ"
+          label="ชื่อ"
+        />
+        <TextField
+          type="text"
+          name="lastname"
+          placeholder="ชื่อss"
+          label="ชื่อss"
+        />
+        <button>click</button>
+      </Form>
     </div>
   </AppLayout>
 </template>
 <script>
 import AppLayout from '@/components/layout/AppLayout.component.vue'
 import CarService from '@/services/CarService'
-// import BaseField from '@/components/field/BaseField.vue'
+import TextField from '@/components/field/TextField.vue'
+import { Form } from 'vee-validate'
+import * as yup from 'yup'
 export default {
   name: 'ShowCase',
   components: {
-    AppLayout
-    // BaseField
+    Form,
+    AppLayout,
+    TextField
   },
   data() {
+    const schema = yup.object().shape({
+      firstname: yup.string().required('โปรดกรอกคำนำหน้า'),
+      lastname: yup.string().required('โปรดกรอกชื่อ')
+    })
     return {
+      schema,
       cars: [],
       selected: {
         brand: '',
