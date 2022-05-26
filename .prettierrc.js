@@ -1,5 +1,6 @@
 module.exports = {
   singleQuote: true,
   semi: false,
-  trailingComma: 'none'
+  trailingComma: 'none',
+  tailwindConfig: './tailwind.config.js'
 }

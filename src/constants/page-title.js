@@ -1,6 +1,7 @@
 const PAGE_TITLE = {
   HOME: 'home',
-  SHOWCASE: 'showcase'
+  SHOWCASE: 'showcase',
+  DIAGNOSE: 'diagnose'
 }
 
 export default PAGE_TITLE

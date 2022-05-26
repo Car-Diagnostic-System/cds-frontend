@@ -4,7 +4,11 @@
     <div
       class="w-full max-w-[640px] items-center rounded border-[1px] border-gray-200 p-4"
     >
-      <Form @submit="onSubmit" :validation-schema="schema">
+      <Form
+        @submit="onSubmit"
+        :validation-schema="schema"
+        v-slot="{ isSubmitting }"
+      >
         <TextField
           type="text"
           name="firstname"
@@ -17,15 +21,29 @@
           placeholder="ชื่อss"
           label="ชื่อss"
         />
+        <Dropdown
+          label="คำนำหน้า"
+          name="prefixName"
+          placeholder="คำนำหน้า"
+          :options="[123, 123, 123]"
+          required
+        />
+        <PrimaryButton
+          actionType="submit"
+          type="submit"
+          :isLoading="isSubmitting"
+        />
         <button>click</button>
       </Form>
     </div>
   </AppLayout>
 </template>
 <script>
-import AppLayout from '@/components/layout/AppLayout.component.vue'
+import AppLayout from '@/components/layout/AppLayout.vue'
 import CarService from '@/services/CarService'
 import TextField from '@/components/field/TextField.vue'
+import Dropdown from '@/components/dropdown/Dropdown.vue'
+import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import { Form } from 'vee-validate'
 import * as yup from 'yup'
 export default {
@@ -33,12 +51,15 @@ export default {
   components: {
     Form,
     AppLayout,
-    TextField
+    TextField,
+    Dropdown,
+    PrimaryButton
   },
   data() {
     const schema = yup.object().shape({
       firstname: yup.string().required('โปรดกรอกคำนำหน้า'),
-      lastname: yup.string().required('โปรดกรอกชื่อ')
+      lastname: yup.string().required('โปรดกรอกชื่อ'),
+      prefixName: yup.string().required('โปรดกรอกคำนำหน้า')
     })
     return {
       schema,

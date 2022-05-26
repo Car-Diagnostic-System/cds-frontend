@@ -4,7 +4,7 @@
       v-bind="field"
       v-facade="mask"
       :type="type"
-      class="outline-none h-[41px] w-full rounded-lg border-[1px] px-4 text-sm font-normal leading-[17px] focus:text-black focus:placeholder-transparent disabled:!border-neutral-100 disabled:bg-neutral-100 disabled:!placeholder-neutral-500"
+      class="h-[41px] w-full rounded-lg border-[1px] px-4 text-sm font-normal leading-[17px] outline-none focus:text-black focus:placeholder-transparent disabled:!border-neutral-100 disabled:bg-neutral-100 disabled:!placeholder-neutral-500"
       :class="[
         errors && touched
           ? '!border-error-500 bg-error-100 text-error-400 placeholder-error-400 focus:ring-2 focus:ring-error-200'

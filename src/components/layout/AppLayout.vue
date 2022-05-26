@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import NavBar from '../navbar/NavBar.component.vue'
+import NavBar from '../navbar/NavBar.vue'
 export default {
   name: 'AppLayout',
   components: {

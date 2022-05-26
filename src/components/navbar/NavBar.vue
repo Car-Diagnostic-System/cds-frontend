@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-green-50">
+  <nav class="h-[66px] bg-primary-500">
     <span>this is navbar</span>
   </nav>
 </template>
