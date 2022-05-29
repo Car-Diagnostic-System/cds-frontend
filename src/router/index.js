@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import ShowCase from '@/views/ShowCase.vue'
+import DIAGNOSE from '@/views/diagnose/DiagnoseSymptom.vue'
 import ROUTE_PATH from '../constants/router'
 
 const routes = [
@@ -13,6 +14,11 @@ const routes = [
     path: ROUTE_PATH.SHOWCASE,
     name: 'showcase',
     component: ShowCase
+  },
+  {
+    path: ROUTE_PATH.DIAGNOSE,
+    name: 'diagnose',
+    component: DIAGNOSE
   }
 ]
 

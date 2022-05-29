@@ -20,6 +20,6 @@ export default {
     return axiosClient.delete(`/products/${id}/delete/`)
   },
   querySymptom(data) {
-    return axiosClient.post('/products/query-symptom/', data)
+    return axiosClient.post('/products/query-symptom', data)
   }
 }

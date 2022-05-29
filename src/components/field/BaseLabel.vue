@@ -1,5 +1,5 @@
 <template>
-  <label class="flex font-bold text-[17px] leading-[22px] text-neutral-900"
+  <label class="flex text-[17px] font-bold leading-[22px] text-neutral-900"
     >{{ label }}
     <span class="text-neutral-500" v-if="helping">&nbsp;({{ helping }})</span>
     <span class="text-error-500" v-if="required">*</span></label
