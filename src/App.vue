@@ -1,28 +1,35 @@
 <template>
   <div class="font-kanit">
-    <router-view />
+    <AppLayout>
+      <router-view v-slot="{ Component }">
+        <transition name="route" mode="out-in">
+          <component :is="Component"></component>
+        </transition>
+      </router-view>
+    </AppLayout>
   </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import AppLayout from '/src/components/layout/AppLayout'
+export default {
+  name: 'App',
+  components: { AppLayout }
 }
-
-nav {
-  padding: 30px;
+</script>
+<style scoped>
+/* route transitions */
+.route-enter-from {
+  opacity: 0;
+  transform: translateX(100px);
 }
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.route-enter-active {
+  transition: all 0.3s ease-out;
 }
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.route-leave-to {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+.route-leave-active {
+  transition: all 0.3s ease-in;
 }
 </style>

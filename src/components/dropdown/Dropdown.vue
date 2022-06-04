@@ -99,7 +99,7 @@ export default {
   @apply h-[41px] !rounded-lg !border-neutral-500 !bg-white !p-0  !placeholder-neutral-400 hover:border-neutral-500;
 }
 .error .vs__dropdown-toggle {
-  @apply !border-error-500 !bg-error-100 !text-error-400 placeholder-error-400 focus:!border-error-500 focus:!ring-2 focus:!ring-error-200;
+  @apply !border-error-500 !bg-error-100 !text-error-400 placeholder-error-400 transition duration-300 ease-in-out focus:!border-error-500 focus:!ring-2 focus:!ring-error-200;
 }
 
 .vs--disabled .vs__dropdown-toggle {
@@ -138,7 +138,7 @@ export default {
 }
 
 .error .vs__dropdown-toggle {
-  @apply !ring-error-200 focus:!border-error-500 focus:!ring-2;
+  @apply !ring-error-200 transition duration-300 ease-in-out focus:!border-error-500 focus:!ring-2;
 }
 
 .vs--open > ul {

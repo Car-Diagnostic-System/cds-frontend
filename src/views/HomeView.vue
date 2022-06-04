@@ -1,15 +1,13 @@
 <template>
-  <AppLayout>
+  <div>
     <h1>home</h1>
-  </AppLayout>
+  </div>
 </template>
 
 <script>
-import AppLayout from '@/components/layout/AppLayout.vue'
 // @ is an alias to /src
 
 export default {
-  name: 'HomeView',
-  components: { AppLayout }
+  name: 'HomeView'
 }
 </script>
