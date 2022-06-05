@@ -1,7 +1,8 @@
 const ROUTE_PATH = {
   HOME: '/',
   SHOWCASE: '/showcase',
-  DIAGNOSE: '/diagnose'
+  DIAGNOSE: '/diagnose',
+  INDEXING: '/indexing'
 }
 
 export default ROUTE_PATH

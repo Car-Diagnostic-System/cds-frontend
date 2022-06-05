@@ -15,6 +15,8 @@
         :maxLength="maxLength"
         :mask="mask"
         @change="$emit('change')"
+        @blur="$emit('blur')"
+        @focus="$emit('focus')"
       />
     </div>
     <div class="h-[15px]" v-if="showError">

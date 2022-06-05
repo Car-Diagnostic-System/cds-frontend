@@ -1,56 +1,60 @@
 <template>
-  <AppLayout>
-    <div class="mx-4 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
-      <div />
-      <HeaderText text="ประเมินอาการรถยนต์" />
-      <Form
-        @submit="onSubmit"
-        :validation-schema="schema"
-        v-slot="{ isSubmitting, values }"
+  <div class="mx-4 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
+    <div />
+    <HeaderText text="ประเมินอาการรถยนต์" />
+    <Form
+      @submit="onSubmit"
+      :validation-schema="schema"
+      v-slot="{ isSubmitting, values }"
+      :initial-values="carInfo"
+    >
+      <div
+        class="w-full rounded-[10px] bg-primary-100 py-5 px-[15px] md:px-[30px]"
       >
-        <div
-          class="w-full rounded-[10px] bg-primary-100 py-5 px-[15px] md:px-[30px]"
-        >
-          <div class="gap-x-5 md:flex">
-            <Dropdown
-              class="w-full"
-              name="brand"
-              label="ยี่ห้อรถยนต์"
-              placeholder="เลือกยี่ห้อรถยนต์"
-              :options="brands"
-              @change="onChangeBrand"
-              required
-            />
-            <Dropdown
-              class="w-full"
-              name="model"
-              label="รุ่นรถยนต์"
-              placeholder="เลือกรุ่นรถยนต์"
-              :options="models"
-              @change="onChangeModel(values.brand, values.model)"
-              required
-            />
-          </div>
+        <div class="gap-x-5 md:flex">
           <Dropdown
-            name="nickname"
-            label="โฉมรถยนต์"
-            placeholder="เลือกโฉมรถยนต์"
-            :options="nicknames"
+            class="w-full"
+            name="brand"
+            label="ยี่ห้อรถยนต์"
+            placeholder="เลือกยี่ห้อรถยนต์"
+            :options="brands"
+            @change="onChangeBrand"
+            :disabled="carInfo"
             required
           />
-          <TextField
-            name="symptom"
-            label="อาการที่พบ"
-            placeholder="เช่น รถเลี้ยวมีเสียงดังกึกๆ"
+          <Dropdown
+            class="w-full"
+            name="model"
+            label="รุ่นรถยนต์"
+            placeholder="เลือกรุ่นรถยนต์"
+            :options="models"
+            @change="onChangeModel(values.brand, values.model)"
+            :disabled="carInfo"
             required
           />
-          <div class="mt-[5px] flex justify-center">
-            <PrimaryButton type="submit" :isLoading="isSubmitting"
-              >ค้นหา</PrimaryButton
-            >
-          </div>
         </div>
-      </Form>
+        <Dropdown
+          name="nickname"
+          label="โฉมรถยนต์"
+          placeholder="เลือกโฉมรถยนต์"
+          :options="nicknames"
+          :disabled="carInfo"
+          required
+        />
+        <TextField
+          name="symptom"
+          label="อาการที่พบ"
+          placeholder="เช่น รถเลี้ยวมีเสียงดังกึกๆ"
+          required
+        />
+        <div class="mt-[5px] flex justify-center">
+          <PrimaryButton type="submit" :isLoading="isSubmitting"
+            >ค้นหา</PrimaryButton
+          >
+        </div>
+      </div>
+    </Form>
+    <transition name="fade" mode="out-in">
       <div class="mb-[55px]" v-if="parts.length">
         <HeaderText
           class="mb-5 flex !text-2xl"
@@ -66,24 +70,22 @@
           />
         </div>
       </div>
-    </div>
-  </AppLayout>
+    </transition>
+  </div>
 </template>
 <script>
-import AppLayout from '@/components/layout/AppLayout.vue'
 import { Form } from 'vee-validate'
 import * as yup from 'yup'
 import TextField from '@/components/field/TextField.vue'
 import Dropdown from '@/components/dropdown/Dropdown.vue'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import HeaderText from '@/components/form/HeaderText.vue'
-import ProductService from '@/services/ProductService'
+import SymptomService from '@/services/SymptomService.js'
 import CarService from '@/services/CarService'
 import PartItem from './component/PartItem.vue'
 export default {
   name: 'DiagnoseSymptom',
   components: {
-    AppLayout,
     Form,
     TextField,
     Dropdown,
@@ -104,6 +106,11 @@ export default {
       models: [],
       nickname: [],
       parts: []
+      // carInfo: {
+      //   brand: { code: 'BMW', label: 'บีเอ็มดับเบิลยู' },
+      //   model: { code: 'X5', label: 'เอ๊กซ์5' },
+      //   nickname: { label: 'โฉมปี 1999-2006 (E53)' }
+      // }
     }
   },
   created() {
@@ -127,7 +134,7 @@ export default {
         nickname: e.nickname.label,
         symptom: e.symptom
       }
-      ProductService.querySymptom(body).then((res) => {
+      SymptomService.querySymptom(body).then((res) => {
         this.parts = res.data
       })
     },
@@ -163,3 +170,14 @@ export default {
   }
 }
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

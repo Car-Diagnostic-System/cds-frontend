@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex flex-col gap-y-[15px] py-[15px] px-[21px]"
+    class="relative flex flex-col justify-center gap-y-[15px] py-[15px] px-[21px]"
     :class="{ 'border-t-2 border-neutral-300': index != 1 }"
   >
     <p>
@@ -12,7 +12,7 @@
     <p>
       Serial Number <span class="text-black">{{ product.serial_no }}</span>
     </p>
-    <span class="absolute right-[21px] top-[50%] cursor-pointer"
+    <span class="absolute right-[21px] cursor-pointer"
       ><svg
         width="24"
         height="24"
