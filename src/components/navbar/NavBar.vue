@@ -74,16 +74,21 @@
       v-if="mobileMenu"
     >
       <div />
-      <router-link
-        class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
-        :to="ROUTE_PATH.DIAGNOSE"
-        >ประเมินอาการรถยนต์</router-link
-      >
-      <router-link
-        class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
-        :to="ROUTE_PATH.INDEXING"
-        >เพิ่มอาการรถยนต์</router-link
-      >
+      <div @click="mobileMenu = !mobileMenu">
+        <router-link
+          class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
+          :to="ROUTE_PATH.DIAGNOSE"
+          >ประเมินอาการรถยนต์</router-link
+        >
+      </div>
+      <div @click="mobileMenu = !mobileMenu">
+        <router-link
+          @click="mobileMenu = !mobileMenu"
+          class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
+          :to="ROUTE_PATH.INDEXING"
+          >เพิ่มอาการรถยนต์</router-link
+        >
+      </div>
     </div>
   </nav>
 </template>
