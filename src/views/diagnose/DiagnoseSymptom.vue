@@ -1,6 +1,5 @@
 <template>
-  <div class="mx-4 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
-    <div />
+  <div class="mx-4 mt-5 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
     <HeaderText text="ประเมินอาการรถยนต์" />
     <Form
       @submit="onSubmit"
