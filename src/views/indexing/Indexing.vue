@@ -1,6 +1,5 @@
 <template>
-  <div class="mx-4 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
-    <div />
+  <div class="mx-4 mt-5 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
     <HeaderText text="เพิ่มอาการรถยนต์" />
     <Form
       @submit="onSubmit"
@@ -15,11 +14,9 @@
           <p class="text-xl leading-[22px]">
             ประเภทของไฟล์ ต้องเป็น xlsx ซึ่งประกอบด้วย 2 columns คือ
           </p>
-          <ul
-            class="flex list-disc flex-col items-start pl-7 text-lg leading-[22px]"
-          >
-            <li>parts คือ อะไหล่รถยนต์</li>
-            <li>symptoms คือ อาการที่เกิดขึ้นหากอะไหล่จาก ข้อ a. ชำรุด</li>
+          <ul class="flex flex-col items-start pl-7 text-lg leading-[22px]">
+            <li>a. parts คือ อะไหล่รถยนต์</li>
+            <li>b. symptoms คือ อาการที่เกิดขึ้นหากอะไหล่จาก ข้อ a. ชำรุด</li>
           </ul>
 
           <div class="text-xl leading-[22px]">
@@ -33,9 +30,8 @@
           </div>
         </div>
         <div class="w-full max-w-[342px]">
-          <FileField name="file" />
+          <FileField name="file" accept=".xlsx" />
         </div>
-
         <div class="flex w-full justify-center py-[10px]">
           <PrimaryButton type="submit" :isLoading="isSubmitting"
             >อัพโหลด</PrimaryButton
@@ -61,8 +57,23 @@ export default {
     FileField
   },
   data() {
+    const SUPPORTED_FORMATS = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ]
+    const FILE_SIZE = 5000000
     const schema = yup.object().shape({
-      file: yup.mixed().required('กรุณาเลือกไฟล์')
+      file: yup
+        .mixed()
+        .required('กรุณาเลือกไฟล์')
+        .test(
+          'fileSize',
+          'ไฟล์มีขนาดเกิน 5MB',
+          (value) => value[0].size <= FILE_SIZE
+        )
+        .test('fileType', 'รองรับประเภทของไฟล์ .xlsx เท่านั้น', (value) => {
+          console.log(value[0])
+          return value && SUPPORTED_FORMATS.includes(value[0].type)
+        })
     })
     return {
       schema

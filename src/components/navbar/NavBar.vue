@@ -2,6 +2,7 @@
   <nav
     class="flex min-h-[66px] justify-between bg-primary-500 py-6 px-5 text-[17px] leading-[17px] text-white md:px-7"
   >
+    <!-- NOTE: desktop nav -->
     <div class="hidden flex-row gap-x-9 md:flex">
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
@@ -25,6 +26,7 @@
     >
       ตุลยวัต ทับคง
     </div>
+    <!-- NOTE: mobile nav -->
     <div class="flex flex-row items-center gap-x-9 md:hidden">
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
@@ -69,27 +71,29 @@
         />
       </svg>
     </div>
-    <div
-      class="absolute left-0 top-[99px] z-50 flex h-full w-full flex-col items-center gap-y-5 border bg-white text-xl"
-      v-if="mobileMenu"
-    >
-      <div />
-      <div @click="mobileMenu = !mobileMenu">
-        <router-link
-          class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
-          :to="ROUTE_PATH.DIAGNOSE"
-          >ประเมินอาการรถยนต์</router-link
-        >
+    <transition name="fadeHeight" mode="out-in">
+      <div
+        class="absolute left-0 top-[99px] z-50 flex h-full w-full flex-col items-center gap-y-5 border bg-white text-xl"
+        v-if="mobileMenu"
+      >
+        <div />
+        <div @click="mobileMenu = !mobileMenu">
+          <router-link
+            class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
+            :to="ROUTE_PATH.DIAGNOSE"
+            >ประเมินอาการรถยนต์</router-link
+          >
+        </div>
+        <div @click="mobileMenu = !mobileMenu">
+          <router-link
+            @click="mobileMenu = !mobileMenu"
+            class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
+            :to="ROUTE_PATH.INDEXING"
+            >เพิ่มอาการรถยนต์</router-link
+          >
+        </div>
       </div>
-      <div @click="mobileMenu = !mobileMenu">
-        <router-link
-          @click="mobileMenu = !mobileMenu"
-          class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
-          :to="ROUTE_PATH.INDEXING"
-          >เพิ่มอาการรถยนต์</router-link
-        >
-      </div>
-    </div>
+    </transition>
   </nav>
 </template>
 <script>
@@ -104,9 +108,19 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 nav .router-link-active,
 nav .router-link-exact-active {
   @apply !text-primary-600;
+}
+.fadeHeight-enter-active,
+.fadeHeight-leave-active {
+  transition: all 0.1s;
+  max-height: 230px;
+}
+.fadeHeight-enter,
+.fadeHeight-leave-to {
+  opacity: 0;
+  max-height: 0px;
 }
 </style>

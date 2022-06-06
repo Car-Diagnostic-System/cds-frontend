@@ -3,6 +3,7 @@
     <BaseLabel :label="label" :required="required" :helping="helping" />
     <Field
       type="file"
+      :accept="accept"
       :name="name"
       class="!bg-white transition duration-300 ease-in-out hover:!bg-neutral-200"
       :class="[
@@ -29,6 +30,9 @@ export default {
     name: {
       type: String,
       required: true
+    },
+    accept: {
+      type: String
     },
     placeholder: {
       type: String,
