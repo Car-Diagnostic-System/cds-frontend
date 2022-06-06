@@ -24,7 +24,7 @@
     <div
       class="hidden cursor-pointer rounded-full px-4 transition duration-300 ease-in-out hover:bg-primary-600 md:block"
     >
-      ตุลยวัต ทับคง
+      {{ firstname }} {{ lastname }}
     </div>
     <!-- NOTE: mobile nav -->
     <div class="flex flex-row items-center gap-x-9 md:hidden">
@@ -79,7 +79,7 @@
         <div />
         <div @click="mobileMenu = !mobileMenu">
           <router-link
-            class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
+            class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
             :to="ROUTE_PATH.DIAGNOSE"
             >ประเมินอาการรถยนต์</router-link
           >
@@ -87,7 +87,7 @@
         <div @click="mobileMenu = !mobileMenu">
           <router-link
             @click="mobileMenu = !mobileMenu"
-            class="text-primary-200 transition duration-300 ease-in-out hover:text-neutral-200"
+            class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
             :to="ROUTE_PATH.INDEXING"
             >เพิ่มอาการรถยนต์</router-link
           >
@@ -101,9 +101,12 @@ import ROUTE_PATH from '@/constants/router.js'
 export default {
   name: 'NavBar',
   data() {
+    const { firstname, lastname } = this.$store.getters.getCurrentUser
     return {
       ROUTE_PATH,
-      mobileMenu: false
+      mobileMenu: false,
+      firstname,
+      lastname
     }
   }
 }
