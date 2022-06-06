@@ -39,7 +39,9 @@
           v-else
         >
           <span class="text-error-700">ไม่มีอะไหล่สำหรับรถยนต์รุ่นนี้</span>
-          <PrimaryButton class="">แจ้งความต้องการ</PrimaryButton>
+          <SecondaryButton type="submit" :click="showContact">
+            แจ้งความต้องการ</SecondaryButton
+          >
         </div>
       </div>
     </transition>
@@ -47,12 +49,12 @@
 </template>
 <script>
 import ProductItem from './ProductItem.vue'
-import PrimaryButton from '@/components/button/PrimaryButton'
+import SecondaryButton from '@/components/button/SecondaryButton.vue'
 export default {
   name: 'PartItem',
   components: {
     ProductItem,
-    PrimaryButton
+    SecondaryButton
   },
   data() {
     return {
@@ -67,6 +69,15 @@ export default {
     rank: {
       type: Number,
       required: true
+    }
+  },
+  methods: {
+    showContact() {
+      this.$swal.fire({
+        icon: 'info',
+        title: 'แจ้งความต้องการสินค้า',
+        html: 'ติดต่ออีเมล' + '<br>' + '<i>cds.developer.team@gmail.com</i>'
+      })
     }
   }
 }

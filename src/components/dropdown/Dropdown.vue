@@ -8,7 +8,6 @@
         :name="name"
         :options="options"
         :placeholder="placeholder"
-        :searchable="false"
         :clearable="false"
         transition="none"
         :disabled="disabled"

@@ -8,7 +8,7 @@
     <div class="text-sm font-normal leading-[17px]" v-if="isLoading">
       <!-- <LoadingIcon /> -->
       <svg
-        class="-ml-1 mr-2 h-5 w-5 animate-spin text-white"
+        class="h-5 w-5 animate-spin text-white"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
