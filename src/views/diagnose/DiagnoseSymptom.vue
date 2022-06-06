@@ -17,8 +17,7 @@
             label="ยี่ห้อรถยนต์"
             placeholder="เลือกยี่ห้อรถยนต์"
             :options="brands"
-            @change="onChangeBrand"
-            :disabled="carInfo"
+            @change="onChangeBrand(values)"
             required
           />
           <Dropdown
@@ -27,8 +26,7 @@
             label="รุ่นรถยนต์"
             placeholder="เลือกรุ่นรถยนต์"
             :options="models"
-            @change="onChangeModel(values.brand, values.model)"
-            :disabled="carInfo"
+            @change="onChangeModel(values)"
             required
           />
         </div>
@@ -37,7 +35,6 @@
           label="โฉมรถยนต์"
           placeholder="เลือกโฉมรถยนต์"
           :options="nicknames"
-          :disabled="carInfo"
           required
         />
         <TextField
@@ -99,23 +96,24 @@ export default {
       nickname: yup.object().required('กรุณาเลือกโฉมรถยนต์'),
       symptom: yup.string().required('โปรดกรอกอาการที่พบ')
     })
+    const { carInfo } = this.$store.getters.getCurrentUser
     return {
       schema,
       cars: [],
       models: [],
       nickname: [],
-      parts: []
-      // carInfo: {
-      //   brand: { code: 'BMW', label: 'บีเอ็มดับเบิลยู' },
-      //   model: { code: 'X5', label: 'เอ๊กซ์5' },
-      //   nickname: { label: 'โฉมปี 1999-2006 (E53)' }
-      // }
+      parts: [],
+      carInfo
     }
   },
   created() {
-    CarService.getAllCars().then((res) => {
-      this.cars = res.data
-    })
+    CarService.getAllCars()
+      .then((res) => {
+        this.cars = res.data
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   },
   computed: {
     brands() {
@@ -138,9 +136,13 @@ export default {
       })
     },
     onChangeBrand(e) {
+      // NOTE: for better UX it should clear model and nickname fields
+      // if (e.model || e.nickname) {
+      //   console.log('reset model n nickname')
+      // }
       this.models = this.cars
         .filter((car) => {
-          return car.brand === e.code
+          return car.brand === e.brand.code
         })[0]
         .model.map((model) => {
           return { code: model.model, label: model.model_th }
@@ -156,12 +158,16 @@ export default {
           return unique
         }, [])
     },
-    onChangeModel(brand, model) {
+    onChangeModel(e) {
+      // NOTE: for better UX it should clear nickname field
+      // if (e.nickname) {
+      //   console.log('reset nickname')
+      // }
       this.nicknames = this.cars
         .filter((car) => {
-          return car.brand === brand.code
+          return car.brand === e.brand.code
         })[0]
-        .model.filter((m) => m.model == model.code)
+        .model.filter((m) => m.model == e.model.code)
         .map((m) => {
           return { label: m.nickname }
         })
