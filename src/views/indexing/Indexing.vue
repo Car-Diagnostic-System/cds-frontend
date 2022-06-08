@@ -11,15 +11,22 @@
       >
         <div class="flex w-full flex-col items-start gap-y-3">
           <h5 class="text-2xl font-bold leading-[29px]">ข้อกำหนด</h5>
-          <p class="text-xl leading-[22px]">
-            ประเภทของไฟล์ ต้องเป็น xlsx ซึ่งประกอบด้วย 2 คอลัมน์ ได้แก่
-          </p>
-          <ul class="flex flex-col items-start pl-7 text-lg leading-[22px]">
-            <li>คอลัมน์ A: parts คือ อะไหล่รถยนต์</li>
+          <ul
+            class="flex list-disc flex-col gap-y-5 pl-7 text-xl leading-[22px]"
+          >
             <li>
-              คอลัมน์ B: symptoms คือ อาการที่เกิดขึ้นหากอะไหล่จาก คอลัมน์ A
-              ชำรุด
+              <span> ไฟล์ต้องประกอบด้วย 2 คอลัมน์ ได้แก่ </span>
+              <ul class="flex list-disc flex-col pl-7 text-lg leading-[22px]">
+                <li>คอลัมน์ A: parts คือ อะไหล่รถยนต์</li>
+                <li>
+                  คอลัมน์ B: symptoms คือ อาการที่เกิดขึ้นหากอะไหล่จาก คอลัมน์ A
+                  ชำรุด
+                </li>
+              </ul>
             </li>
+            <li>ไฟล์ต้องมีขนาดน้อยหว่าเท่ากับ 5 MB</li>
+            <li>ไฟล์ต้องมีข้อมมูลอย่างน้อย 1 แถว (ไม่นับชื่อคอลัมน์)</li>
+            <li>ไฟล์ต้องมีนามสกุล .xlsx</li>
           </ul>
           <div class="text-xl leading-[22px]">
             <span>สามารถ download file format ได้</span>
