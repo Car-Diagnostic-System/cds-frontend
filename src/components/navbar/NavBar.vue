@@ -1,14 +1,14 @@
 <template>
   <nav
-    class="flex min-h-[66px] justify-between bg-primary-500 py-6 px-5 text-[17px] leading-[17px] text-white md:px-7"
+    class="flex min-h-[66px] justify-between bg-primary-400 py-6 px-5 text-[17px] leading-[17px] text-white md:px-7"
   >
     <!-- NOTE: desktop nav -->
     <div class="hidden flex-row gap-x-9 md:flex">
       <router-link
-        class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
+        class="w-50 text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.HOME"
-        >D LOGO</router-link
-      >
+        ><img class="h-5 object-contain" src="@/assets/images/logo.png"
+      /></router-link>
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.DIAGNOSE"
@@ -31,8 +31,8 @@
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.HOME"
-        >M LOGO</router-link
-      >
+        ><img class="h-5 object-contain" src="@/assets/images/logo.png"
+      /></router-link>
     </div>
     <div
       class="block cursor-pointer rounded-full py-2 px-4 hover:bg-primary-600 md:hidden"
@@ -114,7 +114,7 @@ export default {
 <style scoped>
 nav .router-link-active,
 nav .router-link-exact-active {
-  @apply !text-primary-600;
+  @apply !text-primary-800;
 }
 .fadeHeight-enter-active,
 .fadeHeight-leave-active {
