@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex flex-col justify-center gap-y-[15px] py-[15px] px-[21px]"
+    class="relative flex flex-col items-center justify-center gap-y-[15px] py-[15px] px-[21px]"
     :class="{ 'border-t-2 border-neutral-300': index != 1 }"
   >
     <p>

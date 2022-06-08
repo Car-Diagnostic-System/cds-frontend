@@ -17,6 +17,7 @@
     "vue-loader": "^17.0.0",
     "vue-router": "^4.0.3",
     "vue-select": "^3.18.3",
+    "vue-sweetalert2": "^5.0.5",
     "vuex": "^4.0.0",
     "yup": "^0.32.11"
   },

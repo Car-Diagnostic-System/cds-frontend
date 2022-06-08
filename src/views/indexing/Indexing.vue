@@ -4,7 +4,7 @@
     <Form
       @submit="onSubmit"
       :validation-schema="schema"
-      v-slot="{ isSubmitting }"
+      v-slot="{ isSubmitting, errors, meta }"
     >
       <div
         class="flex w-full flex-col items-start gap-y-[10px] rounded-[10px] bg-primary-100 py-5 px-[15px] md:px-[30px]"
@@ -12,19 +12,21 @@
         <div class="flex w-full flex-col items-start gap-y-3">
           <h5 class="text-2xl font-bold leading-[29px]">ข้อกำหนด</h5>
           <p class="text-xl leading-[22px]">
-            ประเภทของไฟล์ ต้องเป็น xlsx ซึ่งประกอบด้วย 2 columns คือ
+            ประเภทของไฟล์ ต้องเป็น xlsx ซึ่งประกอบด้วย 2 คอลัมน์ ได้แก่
           </p>
           <ul class="flex flex-col items-start pl-7 text-lg leading-[22px]">
-            <li>a. parts คือ อะไหล่รถยนต์</li>
-            <li>b. symptoms คือ อาการที่เกิดขึ้นหากอะไหล่จาก ข้อ a. ชำรุด</li>
+            <li>คอลัมน์ A: parts คือ อะไหล่รถยนต์</li>
+            <li>
+              คอลัมน์ B: symptoms คือ อาการที่เกิดขึ้นหากอะไหล่จาก คอลัมน์ A
+              ชำรุด
+            </li>
           </ul>
-
           <div class="text-xl leading-[22px]">
             <span>สามารถ download file format ได้</span>
             <a
-              href="../../assets/files/indexing_format.xlsx"
+              href="https://docs.google.com/spreadsheets/d/1uVdnch2vC72flzPqio1G70IDAPMeSwFI/edit?usp=sharing&ouid=106338400906252482063&rtpof=true&sd=true"
               class="ml-2 cursor-pointer text-primary-700 underline hover:text-primary-900"
-              download
+              target="_blank"
               >ที่นี่</a
             >
           </div>
@@ -33,7 +35,20 @@
           <FileField name="file" accept=".xlsx" />
         </div>
         <div class="flex w-full justify-center py-[10px]">
-          <PrimaryButton type="submit" :isLoading="isSubmitting"
+          <PrimaryButton
+            type="submit"
+            :isLoading="isSubmitting"
+            :click="
+              () =>
+                Object.keys(errors).length || !meta.touched
+                  ? this.$swal.fire({
+                      icon: 'error',
+                      title: 'โปรดกรอกข้อมูลให้ครบถ้วน',
+                      showConfirmButton: false,
+                      timer: 2000
+                    })
+                  : null
+            "
             >อัพโหลด</PrimaryButton
           >
         </div>
@@ -48,6 +63,7 @@ import FileField from '@/components/field/FileField'
 import { Form } from 'vee-validate'
 import * as yup from 'yup'
 import SymptomService from '@/services/SymptomService.js'
+
 export default {
   name: 'IndexingView',
   components: {
@@ -68,10 +84,9 @@ export default {
         .test(
           'fileSize',
           'ไฟล์มีขนาดเกิน 5MB',
-          (value) => value[0].size <= FILE_SIZE
+          (value) => value && value[0].size <= FILE_SIZE
         )
         .test('fileType', 'รองรับประเภทของไฟล์ .xlsx เท่านั้น', (value) => {
-          console.log(value[0])
           return value && SUPPORTED_FORMATS.includes(value[0].type)
         })
     })
@@ -81,13 +96,33 @@ export default {
   },
   methods: {
     onSubmit(e) {
-      SymptomService.indexing(e.file[0])
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((e) => {
-          console.log(e)
-        })
+      return new Promise((resolve) => {
+        resolve(
+          SymptomService.indexing(e.file[0])
+            .then(() => {
+              this.$swal.fire({
+                icon: 'success',
+                title: 'อัพโหลดไฟล์สำเร็จ',
+                text: 'ระบบจะส่งอีเมลเมื่อกระบวนการเสร็จสิ้น'
+              })
+            })
+            .catch((e) => {
+              if (e.response.status == 400) {
+                this.$swal.fire({
+                  icon: 'error',
+                  title: 'มีบางอย่างผิดพลาด',
+                  text: 'โปรดตรวจสอบไฟล์ตามข้อกำหนดอีกครั้ง'
+                })
+              } else {
+                this.$swal.fire({
+                  icon: 'error',
+                  title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
+                  text: 'โปรดลองอีกครั้งภายหลัง'
+                })
+              }
+            })
+        )
+      })
     }
   }
 }

@@ -4,7 +4,7 @@
     <Form
       @submit="onSubmit"
       :validation-schema="schema"
-      v-slot="{ isSubmitting, values }"
+      v-slot="{ isSubmitting, values, errors, meta }"
       :initial-values="carInfo"
     >
       <div
@@ -44,7 +44,20 @@
           required
         />
         <div class="mt-[5px] flex justify-center">
-          <PrimaryButton type="submit" :isLoading="isSubmitting"
+          <PrimaryButton
+            type="submit"
+            :isLoading="isSubmitting"
+            :click="
+              () =>
+                Object.keys(errors).length || !meta.touched
+                  ? this.$swal.fire({
+                      icon: 'error',
+                      title: 'โปรดกรอกข้อมูลให้ครบถ้วน',
+                      showConfirmButton: false,
+                      timer: 2000
+                    })
+                  : null
+            "
             >ค้นหา</PrimaryButton
           >
         </div>
@@ -94,7 +107,10 @@ export default {
       brand: yup.object().required('กรุณาเลือกยี่ห้อรถยนต์'),
       model: yup.object().required('กรุณาเลือกรุ่นรถยนต์'),
       nickname: yup.object().required('กรุณาเลือกโฉมรถยนต์'),
-      symptom: yup.string().required('โปรดกรอกอาการที่พบ')
+      symptom: yup
+        .string()
+        .required('โปรดกรอกอาการที่พบ')
+        .matches(/^[A-Za-z0-9ก-๙ ]+$/, 'กรุณาระบุอาการที่พบเป็นภาษาไทย')
     })
     const { carInfo } = this.$store.getters.getCurrentUser
     return {
@@ -111,8 +127,12 @@ export default {
       .then((res) => {
         this.cars = res.data
       })
-      .catch((e) => {
-        console.log(e)
+      .catch(() => {
+        this.$swal.fire({
+          icon: 'error',
+          title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
+          text: 'โปรดลองอีกครั้งภายหลัง'
+        })
       })
   },
   computed: {
@@ -131,8 +151,20 @@ export default {
         nickname: e.nickname.label,
         symptom: e.symptom
       }
-      SymptomService.querySymptom(body).then((res) => {
-        this.parts = res.data
+      return new Promise((resolve) => {
+        resolve(
+          SymptomService.querySymptom(body)
+            .then((res) => {
+              this.parts = res.data
+            })
+            .catch(() => {
+              this.$swal.fire({
+                icon: 'error',
+                title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
+                text: 'โปรดลองอีกครั้งภายหลัง'
+              })
+            })
+        )
       })
     },
     onChangeBrand(e) {

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex h-full w-full flex-col gap-y-5 md:mx-auto">
-    <div class="bg-slate-400">banner</div>
+  <div class="flex min-h-screen items-center justify-center bg-slate-400">
+    banner
   </div>
 </template>
 
