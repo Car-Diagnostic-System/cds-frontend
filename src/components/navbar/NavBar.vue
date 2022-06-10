@@ -5,9 +5,9 @@
     <!-- NOTE: desktop nav -->
     <div class="hidden flex-row gap-x-9 md:flex">
       <router-link
-        class="w-50 text-white transition duration-300 ease-in-out hover:text-neutral-200"
+        class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.HOME"
-        ><img class="h-5 object-contain" src="@/assets/images/logo.png"
+        ><img class="h-[17px] object-contain" src="@/assets/images/logo.png"
       /></router-link>
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
