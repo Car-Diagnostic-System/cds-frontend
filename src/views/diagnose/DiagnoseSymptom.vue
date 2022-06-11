@@ -110,7 +110,7 @@ export default {
       symptom: yup
         .string()
         .required('โปรดกรอกอาการที่พบ')
-        .matches(/^[A-Za-z0-9ก-๙ ]+$/, 'กรุณาระบุอาการที่พบเป็นภาษาไทย')
+        .matches(/^[A-Za-z0-9ก-๙ ]+$/, 'กรุณาระบุอาการที่พบ')
     })
     const { carInfo } = this.$store.getters.getCurrentUser
     return {
