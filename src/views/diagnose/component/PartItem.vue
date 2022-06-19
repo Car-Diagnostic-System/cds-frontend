@@ -76,7 +76,7 @@ export default {
       this.$swal.fire({
         icon: 'info',
         title: 'แจ้งความต้องการสินค้า',
-        html: 'ติดต่ออีเมล' + '<br>' + '<i>cds.developer.team@gmail.com</i>'
+        html: 'ติดต่ออีเมล' + '<br>' + '<i>cds.developer.team@outlook.com</i>'
       })
     }
   }
