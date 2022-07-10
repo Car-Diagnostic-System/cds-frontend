@@ -14,7 +14,7 @@ export default {
     return axiosClient.get(`/cars/${id}/`)
   },
   updateCar(id, data) {
-    return axiosClient.post(`/cars/${id}/edit/`, data)
+    return axiosClient.post(`/cars/${id}/update/`, data)
   },
   deleteCar(id) {
     return axiosClient.delete(`/cars/${id}/delete/`)
