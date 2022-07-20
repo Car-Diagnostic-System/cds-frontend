@@ -5,7 +5,6 @@
       @submit="onSubmit"
       :validation-schema="schema"
       v-slot="{ isSubmitting, values, errors, meta, setFieldValue }"
-      :initial-values="carInfo"
     >
       <HeaderText text="ประเมินอาการรถยนต์" />
       <div>
@@ -18,7 +17,7 @@
             :options="brands"
             @change="
               () => {
-                onChangeBrand(values), setFieldValue('model', {})
+                onChangeBrand(values), setFieldValue('model', '')
               }
             "
             required
@@ -32,7 +31,7 @@
             :disabled="values.brand ? false : true"
             @change="
               () => {
-                onChangeModel(values), setFieldValue('nickname', {})
+                onChangeModel(values), setFieldValue('nickname', '')
               }
             "
             required
@@ -113,9 +112,18 @@ export default {
   },
   data() {
     const schema = yup.object().shape({
-      brand: yup.object().required('กรุณาเลือกยี่ห้อรถยนต์'),
-      model: yup.object().required('กรุณาเลือกรุ่นรถยนต์'),
-      nickname: yup.object().required('กรุณาเลือกโฉมรถยนต์'),
+      brand: yup
+        .object()
+        .required('กรุณาเลือกยี่ห้อรถยนต์')
+        .typeError('กรุณาเลือกยี่ห้อรถยนต์'),
+      model: yup
+        .object()
+        .required('กรุณาเลือกรุ่นรถยนต์')
+        .typeError('กรุณาเลือกรุ่นรถยนต์'),
+      nickname: yup
+        .object()
+        .required('กรุณาเลือกโฉมรถยนต์')
+        .typeError('กรุณาเลือกโฉมรถยนต์'),
       symptom: yup
         .string()
         .required('โปรดกรอกอาการที่พบ')

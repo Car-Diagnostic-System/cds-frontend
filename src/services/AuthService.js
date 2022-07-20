@@ -21,14 +21,14 @@ export default {
     localStorage.removeItem('user')
     localStorage.removeItem('role')
   },
-  checkEmailExist(data) {
-    return apiClient.post('/auth/check-email', data)
+  checkEmailExist(email) {
+    return apiClient.post('/auth/check-email', { email: email })
   },
   updateUserById(data) {
-    return apiClient.post('/auth/update', data)
+    return apiClient.post('/auth/update/', data)
   },
   updatePasswordByUserId(data) {
-    return apiClient.post('/auth/update-password', data)
+    return apiClient.post('/auth/update-password/', data)
   },
   uploadFile(file) {
     let formData = new FormData()

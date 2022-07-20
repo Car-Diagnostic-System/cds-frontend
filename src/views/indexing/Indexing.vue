@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-4 mt-5 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
+  <div class="mx-4 mt-5 flex max-w-[700px] flex-col md:mx-auto">
     <Form
       class="flex w-full flex-col gap-y-5 border border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
       @submit="onSubmit"
@@ -37,8 +37,16 @@
             >
           </div>
         </div>
-        <div class="mt-2 w-full max-w-[342px]">
-          <FileField name="file" accept=".xlsx" />
+
+        <div class="mt-2 w-full">
+          <UploadField
+            name="file"
+            label="ไฟล์อาการรถยนต์"
+            :accept="[
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            ]"
+            required
+          />
         </div>
         <div class="flex w-full justify-center py-[10px]">
           <PrimaryButton
@@ -65,10 +73,10 @@
 <script>
 import HeaderText from '@/components/form/HeaderText.vue'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
-import FileField from '@/components/field/FileField'
 import { Form } from 'vee-validate'
 import * as yup from 'yup'
 import SymptomService from '@/services/SymptomService.js'
+import UploadField from '@/components/field/UploadField.vue'
 
 export default {
   name: 'IndexingView',
@@ -76,7 +84,7 @@ export default {
     HeaderText,
     Form,
     PrimaryButton,
-    FileField
+    UploadField
   },
   data() {
     const SUPPORTED_FORMATS = [
@@ -87,13 +95,11 @@ export default {
       file: yup
         .mixed()
         .required('กรุณาเลือกไฟล์')
-        .test(
-          'fileSize',
-          'ไฟล์มีขนาดเกิน 5MB',
-          (value) => value && value[0].size <= FILE_SIZE
-        )
+        .test('fileSize', 'ไฟล์มีขนาดเกิน 5MB', (value) => {
+          return value && value.size <= FILE_SIZE
+        })
         .test('fileType', 'รองรับประเภทของไฟล์ .xlsx เท่านั้น', (value) => {
-          return value && SUPPORTED_FORMATS.includes(value[0].type)
+          return value && SUPPORTED_FORMATS.includes(value.type)
         })
     })
     return {
@@ -104,7 +110,7 @@ export default {
     onSubmit(e) {
       return new Promise((resolve) => {
         resolve(
-          SymptomService.indexing(e.file[0])
+          SymptomService.indexing(e.file)
             .then(() => {
               this.$swal.fire({
                 icon: 'success',

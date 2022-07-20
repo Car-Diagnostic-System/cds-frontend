@@ -3,8 +3,9 @@ import HomeView from '@/views/HomeView.vue'
 import ShowCase from '@/views/ShowCase.vue'
 import DIAGNOSE from '@/views/diagnose/DiagnoseSymptom.vue'
 import INDEXING from '@/views/indexing/Indexing.vue'
+import REGISTER from '@/views/register/Register.vue'
 import ROUTE_PATH from '../constants/router'
-import Login from '@/views/auth/Login.vue'
+import LOGIN from '@/views/auth/Login.vue'
 
 const routes = [
   {
@@ -30,7 +31,12 @@ const routes = [
   {
     path: ROUTE_PATH.LOGIN,
     name: 'login',
-    component: Login
+    component: LOGIN
+  },
+  {
+    path: ROUTE_PATH.REGISTER,
+    name: 'register',
+    component: REGISTER
   }
 ]
 
