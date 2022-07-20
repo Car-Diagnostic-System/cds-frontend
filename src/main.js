@@ -9,6 +9,7 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
+import './services/AxiosInterceptorSetup.js'
 
 createApp(App)
   .use(store)
