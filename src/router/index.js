@@ -4,7 +4,7 @@ import ShowCase from '@/views/ShowCase.vue'
 import DIAGNOSE from '@/views/diagnose/DiagnoseSymptom.vue'
 import INDEXING from '@/views/indexing/Indexing.vue'
 import ROUTE_PATH from '../constants/router'
-import AUTHFORM from '@/views/auth/AuthForm.vue'
+import LOGIN from '@/views/auth/LoginForm.vue'
 
 const routes = [
   {
@@ -28,9 +28,9 @@ const routes = [
     component: INDEXING
   },
   {
-    path: ROUTE_PATH.AUTHFORM,
-    name: 'authform',
-    component: AUTHFORM
+    path: ROUTE_PATH.LOGIN,
+    name: 'login',
+    component: LOGIN
   }
 ]
 

@@ -29,7 +29,7 @@
           >
         </div>
         <div class="flex justify-center">
-          <span class="text-sm text-primary-900">ยังไม่มีบัญชี? </span>
+          <span class="mr-1 text-sm text-primary-900">ยังไม่มีบัญชี?</span>
           <span class="text-sm text-primary-700 underline underline-offset-2">
             ลงทะเบียน</span
           >
@@ -46,7 +46,7 @@ import TextField from '@/components/field/TextField.vue'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
 
 export default {
-  name: 'AuthForm',
+  name: 'LoginForm',
   components: {
     HeaderText,
     Form,

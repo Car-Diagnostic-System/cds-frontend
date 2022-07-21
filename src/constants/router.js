@@ -3,7 +3,7 @@ const ROUTE_PATH = {
   SHOWCASE: '/showcase',
   DIAGNOSE: '/diagnose',
   INDEXING: '/indexing',
-  AUTHFORM: '/login'
+  LOGIN: '/login'
 }
 
 export default ROUTE_PATH
