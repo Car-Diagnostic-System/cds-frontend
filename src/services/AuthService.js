@@ -2,11 +2,11 @@ import apiClient from './AxiosClient'
 
 export default {
   register(data) {
-    return apiClient.post('/auth/register/', data)
+    return apiClient.post('/auth/register', data)
   },
   login(data) {
     return apiClient
-      .post('/auth/login', data)
+      .post('/auth', data)
       .then((res) => {
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('user', JSON.stringify(res.data.user))
@@ -22,13 +22,13 @@ export default {
     localStorage.removeItem('role')
   },
   checkEmailExist(data) {
-    return apiClient.post('/auth/check-email/', data)
+    return apiClient.post('/auth/check-email', data)
   },
   updateUserById(data) {
-    return apiClient.post('/auth/update/', data)
+    return apiClient.post('/auth/update', data)
   },
   updatePasswordByUserId(data) {
-    return apiClient.post('/auth/update-password/', data)
+    return apiClient.post('/auth/update-password', data)
   },
   uploadFile(file) {
     let formData = new FormData()
