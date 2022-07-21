@@ -1,7 +1,7 @@
 <template lang="">
   <div class="mx-4 mt-5 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
     <HeaderText text="เข้าสู่ระบบ" />
-    <Form>
+    <Form @submit="handleLogin" :validation-schema="schema">
       <div
         class="flex flex-col justify-center rounded-[10px] bg-primary-100 py-5 px-[10px] md:px-[30px]"
       >
@@ -44,6 +44,9 @@ import HeaderText from '@/components/form/HeaderText.vue'
 import { Form } from 'vee-validate'
 import TextField from '@/components/field/TextField.vue'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
+import * as yup from 'yup'
+import AuthService from '@/services/AuthService'
+import ROUTE_PATH from '@/constants/router'
 
 export default {
   name: 'LoginForm',
@@ -52,6 +55,29 @@ export default {
     Form,
     TextField,
     PrimaryButton
+  },
+  data() {
+    const schema = yup.object().shape({
+      email: yup.string().required('กรุณาใส่อีเมล'),
+      password: yup.string().required('กรุณาใส่รหัสผ่าน')
+    })
+    return {
+      loading: false,
+      message: '',
+      schema
+    }
+  },
+  methods: {
+    handleLogin(user) {
+      AuthService.login(user)
+        .then(() => {
+          console.log(user)
+          this.$router.push(ROUTE_PATH.HOME)
+        })
+        .catch(() => {
+          this.message = 'Could not login'
+        })
+    }
   }
 }
 </script>

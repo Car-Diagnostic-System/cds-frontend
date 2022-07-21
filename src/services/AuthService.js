@@ -6,7 +6,7 @@ export default {
   },
   login(data) {
     return apiClient
-      .post('/auth/login/', data)
+      .post('/auth/login', data)
       .then((res) => {
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('user', JSON.stringify(res.data.user))
