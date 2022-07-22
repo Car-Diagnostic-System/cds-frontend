@@ -4,7 +4,7 @@ import ShowCase from '@/views/ShowCase.vue'
 import DIAGNOSE from '@/views/diagnose/DiagnoseSymptom.vue'
 import INDEXING from '@/views/indexing/Indexing.vue'
 import ROUTE_PATH from '../constants/router'
-import LOGIN from '@/views/auth/Login.vue'
+import Login from '@/views/auth/Login.vue'
 
 const routes = [
   {
@@ -30,7 +30,7 @@ const routes = [
   {
     path: ROUTE_PATH.LOGIN,
     name: 'login',
-    component: LOGIN
+    component: Login
   }
 ]
 

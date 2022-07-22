@@ -1,36 +1,35 @@
 <template>
-  <div class="mx-auto mt-5 flex max-w-[350px] flex-col">
-    <Form
-      class="flex flex-col items-center gap-y-5 bg-white py-9 px-[40px]"
-      @submit="handleLogin"
-      :validation-schema="schema"
-    >
-      <HeaderText text="เข้าสู่ระบบ" />
-      <div class="w-full">
-        <TextField
-          class="max-w-[310px]"
-          name="email"
-          label="อีเมล"
-          placeholder="johndoe@mail.com"
-          required
-        />
-        <TextField
-          class="max-w-[310px]"
-          name="password"
-          label="รหัสผ่าน"
-          placeholder="********"
-          required
-        />
-      </div>
-      <PrimaryButton type="submit" :isLoading="isSubmitting"
-        >เข้าสู่ระบบ</PrimaryButton
+  <div class="mx-auto mt-5 flex max-w-[350px] flex-col gap-y-5">
+    <Form @submit="handleLogin" :validation-schema="schema">
+      <div
+        class="flex flex-col items-center gap-y-5 border border-neutral-100 bg-white py-9 px-[40px]"
       >
-      <div class="flex justify-center">
-        <span class="mr-1 text-sm text-primary-900">ยังไม่มีบัญชี?</span>
-        <!-- NOTE: this span below must change to router-link to routing -->
-        <span class="text-sm text-primary-700 underline underline-offset-2">
-          ลงทะเบียน</span
+        <HeaderText text="เข้าสู่ระบบ" />
+        <div class="w-full">
+          <TextField
+            name="email"
+            label="อีเมล"
+            placeholder="johndoe@gmail.com"
+            required
+          />
+          <TextField
+            type="password"
+            placeholder="*********"
+            name="password"
+            label="รหัสผ่าน"
+            required
+          />
+        </div>
+        <PrimaryButton type="submit" :isLoading="isSubmitting"
+          >เข้าสู่ระบบ</PrimaryButton
         >
+        <div class="flex justify-center">
+          <span class="mr-1 text-sm text-primary-900">ยังไม่มีบัญชี?</span>
+          <!-- NOTE: this span below need to change to router-link or wrap it -->
+          <span class="text-sm text-primary-700 underline underline-offset-2">
+            ลงทะเบียน</span
+          >
+        </div>
       </div>
     </Form>
   </div>
