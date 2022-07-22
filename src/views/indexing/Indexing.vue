@@ -1,16 +1,15 @@
 <template>
   <div class="mx-4 mt-5 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
-    <HeaderText text="เพิ่มอาการรถยนต์" />
     <Form
+      class="flex w-full flex-col gap-y-5 border border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
       @submit="onSubmit"
       :validation-schema="schema"
       v-slot="{ isSubmitting, errors, meta }"
     >
-      <div
-        class="flex w-full flex-col items-start gap-y-[10px] rounded-[10px] bg-primary-100 py-5 px-[15px] md:px-[30px]"
-      >
+      <HeaderText text="เพิ่มอาการรถยนต์" />
+      <div>
         <div class="flex w-full flex-col items-start gap-y-3">
-          <h5 class="text-2xl font-bold leading-[29px]">ข้อกำหนด</h5>
+          <h5 class="text-2xl font-medium leading-[29px]">ข้อกำหนด</h5>
           <ul
             class="flex list-disc flex-col gap-y-5 pl-7 text-xl leading-[22px]"
           >
@@ -38,7 +37,7 @@
             >
           </div>
         </div>
-        <div class="w-full max-w-[342px]">
+        <div class="mt-2 w-full max-w-[342px]">
           <FileField name="file" accept=".xlsx" />
         </div>
         <div class="flex w-full justify-center py-[10px]">

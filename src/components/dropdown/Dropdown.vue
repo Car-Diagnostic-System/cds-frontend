@@ -95,7 +95,7 @@ export default {
 </script>
 <style>
 .vs__dropdown-toggle {
-  @apply h-[41px] !rounded-lg !border-neutral-500 !bg-white !p-0  !placeholder-neutral-400 hover:border-neutral-500;
+  @apply h-[41px] !rounded-none !border-x-0 !border-t-0 !bg-white !p-0 !placeholder-neutral-400;
 }
 .error .vs__dropdown-toggle {
   @apply !border-error-500 !bg-error-100 !text-error-400 placeholder-error-400 transition duration-300 ease-in-out focus:!border-error-500 focus:!ring-2 focus:!ring-error-200;
@@ -133,7 +133,7 @@ export default {
 }
 
 .vs--open > div {
-  @apply !border-primary-500 ring-2 ring-primary-200;
+  @apply !bg-primary-50 !ring-0;
 }
 
 .error .vs__dropdown-toggle {
@@ -141,9 +141,7 @@ export default {
 }
 
 .vs--open > ul {
-  border: 1px solid #5c61f3;
-  box-shadow: 0px 8px 15px 0px rgba(92, 97, 243, 0.2);
-  @apply z-10 mt-2 rounded-lg py-0;
+  @apply z-10 mt-2 rounded-none !border !border-neutral-100 py-0;
 }
 
 .vs--open > ul > li {
