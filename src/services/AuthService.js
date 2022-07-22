@@ -6,7 +6,7 @@ export default {
   },
   login(data) {
     return apiClient
-      .post('/auth', data)
+      .post('/auth/', data)
       .then((res) => {
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('user', JSON.stringify(res.data.user))
@@ -33,7 +33,7 @@ export default {
   uploadFile(file) {
     let formData = new FormData()
     formData.append('file', file)
-    return apiClient.post('/uploadFile', formData, {
+    return apiClient.post('/uploadFile/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

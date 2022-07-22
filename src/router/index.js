@@ -4,7 +4,7 @@ import ShowCase from '@/views/ShowCase.vue'
 import DIAGNOSE from '@/views/diagnose/DiagnoseSymptom.vue'
 import INDEXING from '@/views/indexing/Indexing.vue'
 import ROUTE_PATH from '../constants/router'
-import LOGIN from '@/views/auth/LoginForm.vue'
+import LOGIN from '@/views/auth/Login.vue'
 
 const routes = [
   {

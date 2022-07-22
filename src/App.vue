@@ -1,5 +1,5 @@
 <template>
-  <div class="font-kanit">
+  <div class="bg-neutral-50 font-kanit">
     <AppLayout>
       <router-view v-slot="{ Component }">
         <transition name="route" mode="out-in">

@@ -1,15 +1,14 @@
 <template>
-  <div class="mx-4 mt-5 flex max-w-[700px] flex-col gap-y-5 md:mx-auto">
-    <HeaderText text="ประเมินอาการรถยนต์" />
+  <div class="mx-4 mt-5 flex max-w-[700px] md:mx-auto">
     <Form
+      class="flex w-full flex-col gap-y-5 border border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
       @submit="onSubmit"
       :validation-schema="schema"
       v-slot="{ isSubmitting, values, errors, meta }"
       :initial-values="carInfo"
     >
-      <div
-        class="w-full rounded-[10px] bg-primary-100 py-5 px-[15px] md:px-[30px]"
-      >
+      <HeaderText text="ประเมินอาการรถยนต์" />
+      <div>
         <div class="gap-x-5 md:flex">
           <Dropdown
             class="w-full"
