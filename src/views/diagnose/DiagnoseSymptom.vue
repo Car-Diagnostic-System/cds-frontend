@@ -4,7 +4,7 @@
       class="flex w-full flex-col gap-y-5 border border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
       @submit="onSubmit"
       :validation-schema="schema"
-      v-slot="{ isSubmitting, values, errors, meta }"
+      v-slot="{ isSubmitting, values, errors, meta, setFieldValue }"
       :initial-values="carInfo"
     >
       <HeaderText text="ประเมินอาการรถยนต์" />
@@ -16,7 +16,11 @@
             label="ยี่ห้อรถยนต์"
             placeholder="เลือกยี่ห้อรถยนต์"
             :options="brands"
-            @change="onChangeBrand(values)"
+            @change="
+              () => {
+                onChangeBrand(values), setFieldValue('model', {})
+              }
+            "
             required
           />
           <Dropdown
@@ -25,7 +29,12 @@
             label="รุ่นรถยนต์"
             placeholder="เลือกรุ่นรถยนต์"
             :options="models"
-            @change="onChangeModel(values)"
+            :disabled="values.brand ? false : true"
+            @change="
+              () => {
+                onChangeModel(values), setFieldValue('nickname', {})
+              }
+            "
             required
           />
         </div>
@@ -34,6 +43,7 @@
           label="โฉมรถยนต์"
           placeholder="เลือกโฉมรถยนต์"
           :options="nicknames"
+          :disabled="values.model ? false : true"
           required
         />
         <TextField
@@ -168,10 +178,6 @@ export default {
       })
     },
     onChangeBrand(e) {
-      // NOTE: for better UX it should clear model and nickname fields
-      // if (e.model || e.nickname) {
-      //   console.log('reset model n nickname')
-      // }
       this.models = this.cars
         .filter((car) => {
           return car.brand === e.brand.code
@@ -191,10 +197,6 @@ export default {
         }, [])
     },
     onChangeModel(e) {
-      // NOTE: for better UX it should clear nickname field
-      // if (e.nickname) {
-      //   console.log('reset nickname')
-      // }
       this.nicknames = this.cars
         .filter((car) => {
           return car.brand === e.brand.code
