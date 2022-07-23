@@ -7,8 +7,14 @@
       <Form
         @submit="onSubmit"
         :validation-schema="schema"
-        v-slot="{ isSubmitting }"
+        v-slot="{ isSubmitting, values }"
       >
+        {{ values }}
+        <UploadField
+          name="imageProfile"
+          label="อัพรูป"
+          :accept="['image/jpeg', 'image/png']"
+        />
         <TextField
           type="text"
           name="firstname"
@@ -45,6 +51,7 @@ import TextField from '@/components/field/TextField.vue'
 import Dropdown from '@/components/dropdown/Dropdown.vue'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import { Form } from 'vee-validate'
+import UploadField from '@/components/field/UploadField.vue'
 import * as yup from 'yup'
 export default {
   name: 'ShowCase',
@@ -53,6 +60,7 @@ export default {
     AppLayout,
     TextField,
     Dropdown,
+    UploadField,
     PrimaryButton
   },
   data() {

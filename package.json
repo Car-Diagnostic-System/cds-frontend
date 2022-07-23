@@ -9,10 +9,11 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@upload-io/vue-uploader": "^1.5.5",
+    "@vue/compat": "^3.1.0",
     "axios": "^0.27.2",
     "vee-validate": "^4.5.11",
     "vue": "^3.2.13",
-    "@vue/compat": "^3.1.0",
     "vue-input-facade": "^2.0.1",
     "vue-loader": "^17.0.0",
     "vue-router": "^4.0.3",
@@ -22,9 +23,13 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.7",
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "autoprefixer": "^10.4.7",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -35,10 +40,6 @@
     "prettier": "^2.4.1",
     "prettier-plugin-tailwindcss": "^0.1.11",
     "tailwindcss": "^3.0.24",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
     "vue-svg-loader": "^0.17.0-beta.2",
     "vue-template-compiler": "^2.6.14"
   },
