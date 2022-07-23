@@ -20,7 +20,8 @@
     "vue-select": "^3.18.3",
     "vue-sweetalert2": "^5.0.5",
     "vuex": "^4.0.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "yup-password": "^0.2.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
