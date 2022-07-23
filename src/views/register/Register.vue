@@ -147,6 +147,8 @@ export default {
                 reject(createError({ path, errorMessage }))
               }
             })
+          } else {
+            reject(createError({ path, errorMessage }))
           }
         })
       })
