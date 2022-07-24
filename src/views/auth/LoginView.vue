@@ -39,7 +39,7 @@
         >เข้าสู่ระบบ</PrimaryButton
       >
       <div class="flex justify-center">
-        <span class="mr-1 text-sm text-primary-900">ยังไม่มีบัญชี?</span>
+        <span class="mr-1 text-sm text-primary-900">ยังไม่เป็นสมาชิก?</span>
         <router-link
           :to="ROUTE_PATH.REGISTER"
           class="text-sm text-primary-700 underline underline-offset-2"
