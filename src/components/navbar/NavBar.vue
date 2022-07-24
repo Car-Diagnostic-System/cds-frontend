@@ -12,13 +12,13 @@
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.DIAGNOSE"
-        v-if="isAuthenticated"
+        v-if="isAuthenticated && isUser"
         >ประเมินอาการรถยนต์</router-link
       >
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.INDEXING"
-        v-if="isAuthenticated"
+        v-if="isAuthenticated && isAdmin"
         >เพิ่มอาการรถยนต์</router-link
       >
     </div>
@@ -41,6 +41,7 @@
     <div
       class="block cursor-pointer rounded-full py-2 px-4 hover:bg-primary-600 md:hidden"
       @click="mobileMenu = !mobileMenu"
+      v-if="isAuthenticated"
     >
       <svg
         width="35"
@@ -75,6 +76,9 @@
         />
       </svg>
     </div>
+    <div v-if="!isAuthenticated">
+      <router-link :to="ROUTE_PATH.LOGIN">เข้าสู่ระบบ</router-link>
+    </div>
     <transition name="fadeHeight" mode="out-in">
       <div
         class="absolute left-0 top-[99px] z-50 flex h-full w-full flex-col items-center gap-y-5 border bg-white text-xl"
@@ -85,6 +89,7 @@
           <router-link
             class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
             :to="ROUTE_PATH.DIAGNOSE"
+            v-if="isAuthenticated && isUser"
             >ประเมินอาการรถยนต์</router-link
           >
         </div>
@@ -93,6 +98,7 @@
             @click="mobileMenu = !mobileMenu"
             class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
             :to="ROUTE_PATH.INDEXING"
+            v-if="isAuthenticated && isAdmin"
             >เพิ่มอาการรถยนต์</router-link
           >
         </div>
@@ -103,6 +109,7 @@
 <script>
 import ROUTE_PATH from '@/constants/router.js'
 import AuthService from '@/services/AuthService.js'
+import ROLE from '@/constants/role.js'
 export default {
   name: 'NavBar',
   data() {
@@ -111,12 +118,19 @@ export default {
       ROUTE_PATH,
       mobileMenu: false,
       firstname: 'John',
-      lastname: 'Doe'
+      lastname: 'Doe',
+      ROLE
     }
   },
   computed: {
     isAuthenticated() {
       return this.$store.getters.getCurrentUser
+    },
+    isUser() {
+      return this.$store.getters.getRole === ROLE.USER
+    },
+    isAdmin() {
+      return this.$store.getters.getRole === ROLE.ADMIN
     }
   },
   methods: {
