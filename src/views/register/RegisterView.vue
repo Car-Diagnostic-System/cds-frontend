@@ -78,7 +78,7 @@
           placeholder="เลือกโฉมรถยนต์"
           :options="nicknames"
           :disabled="values.model ? false : true"
-          :required="values.model ? true : false"
+          :required="values.brand ? true : false"
         />
       </div>
       <div class="my-[15px] flex justify-center">
@@ -171,8 +171,20 @@ export default {
         .oneOf([yup.ref('password'), null], 'รหัสผ่านไม่ตรงกัน')
         .required('กรุณายืนยันรหัสผ่าน'),
       brand: yup.object().typeError('กรุณาเลือกยี่ห้อรถยนต์'),
-      model: yup.object().typeError('กรุณาเลือกรุ่นรถยนต์'),
-      nickname: yup.object().typeError('กรุณาเลือกโฉมรถยนต์')
+      model: yup
+        .object()
+        .typeError('กรุณาเลือกรุ่นรถยนต์')
+        .when('brand', {
+          is: (brand) => brand && brand.length,
+          then: yup.object().required('กรุณาเลือกรุ่นรถยนต์')
+        }),
+      nickname: yup
+        .object()
+        .typeError('กรุณาเลือกโฉมรถยนต์')
+        .when('brand', {
+          is: (brand) => brand && brand.length,
+          then: yup.object().required('กรุณาเลือกรุ่นรถยนต์')
+        })
     })
     return {
       schema,
