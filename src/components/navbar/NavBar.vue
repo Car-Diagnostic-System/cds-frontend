@@ -12,19 +12,23 @@
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.DIAGNOSE"
+        v-if="isAuthenticated"
         >ประเมินอาการรถยนต์</router-link
       >
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.INDEXING"
+        v-if="isAuthenticated"
         >เพิ่มอาการรถยนต์</router-link
       >
     </div>
 
     <div
       class="hidden cursor-pointer rounded-full px-4 transition duration-300 ease-in-out hover:bg-primary-600 md:block"
+      v-if="isAuthenticated"
+      @click="logout"
     >
-      {{ firstname }} {{ lastname }}
+      ปุ่ม
     </div>
     <!-- NOTE: mobile nav -->
     <div class="flex flex-row items-center gap-x-9 md:hidden">
@@ -98,15 +102,36 @@
 </template>
 <script>
 import ROUTE_PATH from '@/constants/router.js'
+import AuthService from '@/services/AuthService.js'
 export default {
   name: 'NavBar',
   data() {
-    const { firstname, lastname } = this.$store.getters.getCurrentUser
+    // const { firstname, lastname } = this.$store.getters.getCurrentUser
     return {
       ROUTE_PATH,
       mobileMenu: false,
-      firstname,
-      lastname
+      firstname: 'John',
+      lastname: 'Doe'
+    }
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.getCurrentUser
+    }
+  },
+  methods: {
+    logout() {
+      AuthService.logout()
+      this.$swal.fire({
+        icon: 'success',
+        title: 'ออกจากระบบเรียบร้อย',
+        showConfirmButton: false,
+        position: 'top-end',
+        timer: 2000
+      })
+      setTimeout(() => {
+        location.reload()
+      }, 2000)
     }
   }
 }

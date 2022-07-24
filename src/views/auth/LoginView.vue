@@ -74,7 +74,6 @@ export default {
     })
     return {
       loading: false,
-      message: '',
       schema,
       ROUTE_PATH
     }
@@ -82,12 +81,41 @@ export default {
   methods: {
     handleLogin(user) {
       AuthService.login(user)
-        .then(() => {
-          console.log(user)
-          this.$router.push(ROUTE_PATH.HOME)
+        .then((res) => {
+          if (res.data) {
+            this.$swal.fire({
+              icon: 'success',
+              title: 'เข้าสู่ระบบสำเร็จ',
+              showConfirmButton: false,
+              position: 'top-end',
+              timer: 2000
+            })
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('user', JSON.stringify(res.data.user))
+            localStorage.setItem('role', res.data.user.role)
+            setTimeout(() => {
+              location.reload()
+            }, 2000)
+          }
         })
-        .catch(() => {
-          this.message = 'Could not login'
+        .catch((err) => {
+          if (err.response.status) {
+            this.$swal.fire({
+              icon: 'error',
+              title: 'เข้าสูระบบไม่สำเร็จ',
+              text: 'โปรดตรวจสอบอีเมลและรหัสผ่าน',
+              showConfirmButton: false,
+              timer: 2000
+            })
+          } else {
+            this.$swal.fire({
+              icon: 'error',
+              title: 'มีบางอย่างผิดพลาด',
+              text: 'โปรดลองอีกครั้งภายหลัง',
+              showConfirmButton: false,
+              timer: 2000
+            })
+          }
         })
     }
   }

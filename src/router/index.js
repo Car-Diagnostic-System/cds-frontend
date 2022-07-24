@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+import store from '@/store'
 import ShowCase from '@/views/ShowCase.vue'
 import DiagnoseView from '@/views/diagnose/DiagnoseView.vue'
 import IndexingView from '@/views/indexing/IndexingView.vue'
@@ -21,7 +22,10 @@ const routes = [
   {
     path: ROUTE_PATH.DIAGNOSE,
     name: 'diagnose',
-    component: DiagnoseView
+    component: DiagnoseView,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: ROUTE_PATH.INDEXING,
@@ -43,6 +47,26 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (
+    (to.name == 'login' && store.getters.getCurrentUser) ||
+    (to.name == 'register' && store.getters.getCurrentUser)
+  ) {
+    next({ path: ROUTE_PATH.HOME })
+  }
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!store.getters.getCurrentUser) {
+      next({ path: ROUTE_PATH.LOGIN })
+    } else {
+      console.log(to)
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

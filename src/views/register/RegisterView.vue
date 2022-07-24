@@ -219,8 +219,7 @@ export default {
         .then(() => {
           this.$swal.fire({
             icon: 'success',
-            title: 'สมัครสมาชิกสำเร็จ',
-            text: 'กรุณาตรวจสอบอีเมลเพื่อยืนยันการสมัครสมาชิก'
+            title: 'สมัครสมาชิกสำเร็จ'
           })
           this.$router.push(ROUTE_PATH.LOGIN)
         })

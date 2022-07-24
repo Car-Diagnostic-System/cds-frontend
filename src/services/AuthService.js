@@ -5,16 +5,7 @@ export default {
     return apiClient.post('/auth/register', data)
   },
   login(data) {
-    return apiClient
-      .post('/auth/', data)
-      .then((res) => {
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('user', JSON.stringify(res.data.user))
-        localStorage.setItem('role', res.data.user.role)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    return apiClient.post('/auth/', data)
   },
   logout() {
     localStorage.removeItem('token')
