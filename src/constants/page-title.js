@@ -5,7 +5,10 @@ const PAGE_TITLE = {
   INDEXING: 'indexing',
   LOGIN: 'login',
   REGISTER: 'register',
-  BOOKMARK: 'bookmark'
+  BOOKMARK: 'bookmark',
+  ACCOUNT: 'account',
+  ACCOUNT_INFORMATION: 'account-information',
+  ACCOUNT_PASSWORD: 'account-password'
 }
 
 export default PAGE_TITLE

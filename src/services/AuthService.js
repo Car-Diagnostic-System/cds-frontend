@@ -16,18 +16,21 @@ export default {
     return apiClient.post('/auth/check-email', { email: email })
   },
   updateUserById(data) {
-    return apiClient.post('/auth/update/', data)
+    return apiClient.post('/auth/update', data)
   },
   updatePasswordByUserId(data) {
-    return apiClient.post('/auth/update-password/', data)
+    return apiClient.post('/auth/update-password', data)
   },
   uploadFile(file) {
     let formData = new FormData()
     formData.append('file', file)
-    return apiClient.post('/uploadFile/', formData, {
+    return apiClient.post('/bucket/upload-file', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
+  },
+  getUserInfo(data) {
+    return apiClient.post('/auth/user-info', { userId: data })
   }
 }

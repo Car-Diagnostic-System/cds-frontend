@@ -20,6 +20,7 @@
 import HeaderText from '@/components/form/HeaderText.vue'
 import BookmarkItem from '@/views/bookmark/component/BookmarkItem.vue'
 import BookmarkService from '@/services/BookmarkService'
+import ROUTE_PATH from '@/constants/router'
 
 export default {
   name: 'BookmarkView',
@@ -36,15 +37,18 @@ export default {
     const userId = JSON.parse(this.$store.getters.getCurrentUser).id
     BookmarkService.getBookmarkByUserId(userId)
       .then((res) => {
+        console.log(res)
         this.bookmarks = res.data.products
       })
       .catch((err) => {
+        console.log(err)
         this.$swal.fire({
           icon: 'info',
           title: 'ไม่พบรายการโปรด',
-          footer: '<a href="">Why do I have this issue?</a>'
+          footer: `<a href="${ROUTE_PATH.DIAGNOSE}">คุณสามารถเพิ่มรายการโปรดได้ที่นี่</a>`,
+          confirmButtonColor: '#02b1f5',
+          confirmButtonText: 'ตกลง'
         })
-        console.log(err)
       })
   },
   methods: {
@@ -63,14 +67,16 @@ export default {
         .then((result) => {
           if (result.isConfirmed) {
             BookmarkService.removeBookmark(
-              this.getCurrentUser.id,
+              this.getCurrentUser().id,
               serial_no
             ).then(() => {
-              this.$swal.fire(
-                'ลบรายการเสร็จสิ้น',
-                'คุณสามารถเพิ่มรายการได้อีกครั้งในภายหลัง',
-                'success'
-              )
+              this.$swal.fire({
+                title: 'ลบรายการเสร็จสิ้น',
+                text: 'คุณสามารถเพิ่มรายการได้อีกครั้งในภายหลัง',
+                icon: 'success',
+                confirmButtonColor: '#02b1f5',
+                confirmButtonText: 'ตกลง'
+              })
               this.bookmarks = this.bookmarks.filter((bookmark) => {
                 return bookmark.serial_no !== serial_no
               })

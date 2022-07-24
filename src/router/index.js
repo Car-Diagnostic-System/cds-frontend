@@ -7,6 +7,9 @@ import IndexingView from '@/views/indexing/IndexingView.vue'
 import RegisterView from '@/views/register/RegisterView.vue'
 import LoginView from '@/views/auth/LoginView.vue'
 import BookmarkView from '@/views/bookmark/BookmarkView.vue'
+import AccountLayout from '@/views/account/AccountLayout.vue'
+import AccountInformation from '@/views/account/children/AccountInformation.vue'
+import AccountPassword from '@/views/account/children/AccountPassword.vue'
 import ROLE from '@/constants/role'
 import ROUTE_PATH from '../constants/router'
 import PAGE_TITLE from '@/constants/page-title'
@@ -51,7 +54,34 @@ const routes = [
   {
     path: ROUTE_PATH.BOOKMARK,
     name: PAGE_TITLE.BOOKMARK,
-    component: BookmarkView
+    component: BookmarkView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: ROUTE_PATH.ACCOUNT,
+    name: PAGE_TITLE.ACCOUNT,
+    component: AccountLayout,
+    redirect: ROUTE_PATH.ACCOUNT + ROUTE_PATH.ACCOUNT_INFORMATION,
+    children: [
+      {
+        path: ROUTE_PATH.ACCOUNT + ROUTE_PATH.ACCOUNT_INFORMATION,
+        name: PAGE_TITLE.ACCOUNT_INFORMATION,
+        component: AccountInformation,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT + ROUTE_PATH.ACCOUNT_PASSWORD,
+        name: PAGE_TITLE.ACCOUNT_PASSWORD,
+        component: AccountPassword,
+        meta: {
+          requiresAuth: true
+        }
+      }
+    ]
   }
 ]
 
@@ -84,7 +114,8 @@ router.beforeEach((to, from, next) => {
         if (
           to.name === PAGE_TITLE.DIAGNOSE ||
           to.name === PAGE_TITLE.BOOKMARK ||
-          to.name === 'accountManagement'
+          to.name === PAGE_TITLE.ACCOUNT_INFORMATION ||
+          to.name === PAGE_TITLE.ACCOUNT_PASSWORD
         ) {
           next()
         } else {
