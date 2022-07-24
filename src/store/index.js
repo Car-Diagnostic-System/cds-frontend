@@ -3,31 +3,31 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     // NOTE: This is mock up data actually it should be null
-    currentUser: {
-      firstname: 'ตุลยวัต',
-      lastname: 'ทับคง',
-      email: 'tulyawatt@gmail.com',
-      carInfo: null
-      // carInfo: {
-      //   brand: { code: 'BMW', label: 'บีเอ็มดับเบิลยู' },
-      //   model: { code: 'X5', label: 'เอ๊กซ์5' },
-      //   nickname: { label: 'โฉมปี 1999-2006 (E53)' }
-      // }
-    }
+    currentUser: localStorage.getItem('user') || null,
+    role: localStorage.getItem('role') || null
   },
   getters: {
     getCurrentUser(state) {
       return state.currentUser
+    },
+    getRole(state) {
+      return state.role
     }
   },
   mutations: {
     setCurrentUser(state, value) {
       state.currentUser = value
+    },
+    setRole(state, value) {
+      state.role = value
     }
   },
   actions: {
     setCurrentUser(context, value) {
       context.commit('setCurrentUser', value)
+    },
+    setRole(context, value) {
+      context.commit('setRole', value)
     }
   }
 })
