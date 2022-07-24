@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-4 mt-5 flex max-w-[700px] md:mx-auto">
+  <div class="mx-4 mt-5 flex max-w-[700px] flex-col md:mx-auto">
     <Form
       class="mb-5 flex w-full flex-col gap-y-5 border border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
       @submit="onSubmit"
