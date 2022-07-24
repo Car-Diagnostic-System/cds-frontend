@@ -4,7 +4,7 @@
       @submit="onSubmit"
       :validation-schema="schema"
       v-slot="{ isSubmitting, values, errors, meta, setFieldValue }"
-      class="flex w-full flex-col gap-y-5 border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
+      class="mb-5 flex w-full flex-col gap-y-5 border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
     >
       <HeaderText text="ลงทะเบียน" />
       <div>
