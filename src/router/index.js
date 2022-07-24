@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import ShowCase from '@/views/ShowCase.vue'
-import DIAGNOSE from '@/views/diagnose/DiagnoseSymptom.vue'
-import INDEXING from '@/views/indexing/Indexing.vue'
-import REGISTER from '@/views/register/Register.vue'
+import DiagnoseView from '@/views/diagnose/DiagnoseView.vue'
+import IndexingView from '@/views/indexing/IndexingView.vue'
+import RegisterView from '@/views/register/RegisterView.vue'
+import LoginView from '@/views/auth/LoginView.vue'
 import ROUTE_PATH from '../constants/router'
-import LOGIN from '@/views/auth/Login.vue'
 
 const routes = [
   {
@@ -21,22 +21,22 @@ const routes = [
   {
     path: ROUTE_PATH.DIAGNOSE,
     name: 'diagnose',
-    component: DIAGNOSE
+    component: DiagnoseView
   },
   {
     path: ROUTE_PATH.INDEXING,
     name: 'indexing',
-    component: INDEXING
+    component: IndexingView
   },
   {
     path: ROUTE_PATH.LOGIN,
     name: 'login',
-    component: LOGIN
+    component: LoginView
   },
   {
     path: ROUTE_PATH.REGISTER,
     name: 'register',
-    component: REGISTER
+    component: RegisterView
   }
 ]
 

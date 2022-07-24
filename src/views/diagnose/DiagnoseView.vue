@@ -1,7 +1,7 @@
 <template>
   <div class="mx-4 mt-5 flex max-w-[700px] md:mx-auto">
     <Form
-      class="flex w-full flex-col gap-y-5 border border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
+      class="mb-5 flex w-full flex-col gap-y-5 border border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
       @submit="onSubmit"
       :validation-schema="schema"
       v-slot="{ isSubmitting, values, errors, meta, setFieldValue }"
@@ -101,7 +101,7 @@ import SymptomService from '@/services/SymptomService.js'
 import CarService from '@/services/CarService'
 import PartItem from './component/PartItem.vue'
 export default {
-  name: 'DiagnoseSymptom',
+  name: 'DiagnoseView',
   components: {
     Form,
     TextField,
