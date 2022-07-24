@@ -4,7 +4,8 @@ const ROUTE_PATH = {
   DIAGNOSE: '/diagnose',
   INDEXING: '/indexing',
   LOGIN: '/login',
-  REGISTER: '/register'
+  REGISTER: '/register',
+  BOOKMARK: '/bookmark'
 }
 
 export default ROUTE_PATH

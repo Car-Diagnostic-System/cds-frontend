@@ -4,6 +4,7 @@
       class="mb-5 flex w-full flex-col gap-y-5 border border-neutral-100 bg-white py-5 px-[15px] md:px-[30px]"
       @submit="onSubmit"
       :validation-schema="schema"
+      :initial-values="initData"
       v-slot="{ isSubmitting, values, errors, meta, setFieldValue }"
     >
       <HeaderText text="ประเมินอาการรถยนต์" />
@@ -84,6 +85,9 @@
             :key="idx"
             :part="part"
             :rank="idx + 1"
+            :bookmarked="bookmarked"
+            @add-bookmark="addBookmark"
+            @remove-bookmark="removeBookmark"
           />
         </div>
       </div>
@@ -98,7 +102,8 @@ import Dropdown from '@/components/dropdown/Dropdown.vue'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import HeaderText from '@/components/form/HeaderText.vue'
 import SymptomService from '@/services/SymptomService.js'
-import CarService from '@/services/CarService'
+import CarService from '@/services/CarService.js'
+import BookmarkService from '@/services/BookmarkService.js'
 import PartItem from './component/PartItem.vue'
 export default {
   name: 'DiagnoseView',
@@ -136,7 +141,14 @@ export default {
       models: [],
       nickname: [],
       parts: [],
-      carInfo
+      carInfo,
+      bookmarked: [],
+      initData: {
+        brand: '',
+        model: '',
+        nickname: '',
+        symptom: ''
+      }
     }
   },
   created() {
@@ -144,20 +156,37 @@ export default {
       .then((res) => {
         this.cars = res.data
       })
-      .catch((e) => {
-        console.log(e)
+      .catch(() => {
         this.$swal.fire({
           icon: 'error',
           title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
           text: 'โปรดลองอีกครั้งภายหลัง'
         })
       })
+    const user = JSON.parse(this.$store.getters.getCurrentUser)
+    if (user.car) {
+      this.initData = {
+        brand: user.car.brand,
+        model: user.car.model,
+        nickname: user.car.nickname
+      }
+    }
+
+    BookmarkService.getBookmarkByUserId(user.id).then((res) => {
+      let products = res.data.products
+      if (products.length) {
+        this.bookmarked = products.map((item) => item.serial_no)
+      }
+    })
   },
   computed: {
     brands() {
       return this.cars.map((car) => {
         return { code: car.brand, label: car.brand_th }
       })
+    },
+    getCurrentUser() {
+      return JSON.parse(this.$store.getters.getCurrentUser)
     }
   },
   methods: {
@@ -212,6 +241,54 @@ export default {
         .model.filter((m) => m.model == e.model.code)
         .map((m) => {
           return { label: m.nickname }
+        })
+    },
+    addBookmark(serial_no) {
+      BookmarkService.addBookmark(this.getCurrentUser.id, serial_no)
+        .then(() => {
+          this.$swal.fire({
+            icon: 'success',
+            toast: true,
+            title: 'เพิ่มรายการเรียบร้อยแล้ว',
+            showConfirmButton: false,
+            position: 'top-end',
+            timer: 2000
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$swal.fire({
+            icon: 'error',
+            toast: true,
+            title: 'เพิ่มรายการไม่สำเร็จ',
+            showConfirmButton: false,
+            position: 'top-end',
+            timer: 2000
+          })
+        })
+    },
+    removeBookmark(serial_no) {
+      BookmarkService.removeBookmark(this.getCurrentUser.id, serial_no)
+        .then(() => {
+          this.$swal.fire({
+            icon: 'success',
+            toast: true,
+            title: 'ลบรายการสำเร็จ',
+            showConfirmButton: false,
+            position: 'top-end',
+            timer: 2000
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$swal.fire({
+            icon: 'error',
+            toast: true,
+            title: 'ลบรายการไม่สำเร็จ',
+            showConfirmButton: false,
+            position: 'top-end',
+            timer: 2000
+          })
         })
     }
   }

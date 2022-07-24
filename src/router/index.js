@@ -6,9 +6,10 @@ import DiagnoseView from '@/views/diagnose/DiagnoseView.vue'
 import IndexingView from '@/views/indexing/IndexingView.vue'
 import RegisterView from '@/views/register/RegisterView.vue'
 import LoginView from '@/views/auth/LoginView.vue'
-import ROUTE_PATH from '@/constants/router'
-import PAGE_TITLE from '@/constants/page-title'
+import BookmarkView from '@/views/bookmark/BookmarkView.vue'
 import ROLE from '@/constants/role'
+import ROUTE_PATH from '../constants/router'
+import PAGE_TITLE from '@/constants/page-title'
 
 const routes = [
   {
@@ -46,6 +47,11 @@ const routes = [
     path: ROUTE_PATH.REGISTER,
     name: PAGE_TITLE.REGISTER,
     component: RegisterView
+  },
+  {
+    path: ROUTE_PATH.BOOKMARK,
+    name: PAGE_TITLE.BOOKMARK,
+    component: BookmarkView
   }
 ]
 

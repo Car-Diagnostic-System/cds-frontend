@@ -85,6 +85,7 @@ export default {
           if (res.data) {
             this.$swal.fire({
               icon: 'success',
+              toast: true,
               title: 'เข้าสู่ระบบสำเร็จ',
               showConfirmButton: false,
               position: 'top-end',
@@ -102,7 +103,7 @@ export default {
           if (err.response.status) {
             this.$swal.fire({
               icon: 'error',
-              title: 'เข้าสูระบบไม่สำเร็จ',
+              title: 'เข้าสู่ระบบไม่สำเร็จ',
               text: 'โปรดตรวจสอบอีเมลและรหัสผ่าน',
               showConfirmButton: false,
               timer: 2000

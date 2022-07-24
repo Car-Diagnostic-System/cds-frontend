@@ -2,12 +2,18 @@ import apiClient from './AxiosClient'
 
 export default {
   getBookmarkByUserId(data) {
-    return apiClient.get('/bookmarks', data)
+    return apiClient.post('/bookmarks/', { userId: data })
   },
-  addBookmark(data) {
-    return apiClient.post('/bookmarks/add', data)
+  addBookmark(userId, data) {
+    return apiClient.post('/bookmarks/add', {
+      userId: userId,
+      serialNo: data
+    })
   },
-  removeBookmark(data) {
-    return apiClient.post('/bookmarks/remove', data)
+  removeBookmark(userId, data) {
+    return apiClient.post('/bookmarks/remove', {
+      userId: userId,
+      serialNo: data
+    })
   }
 }

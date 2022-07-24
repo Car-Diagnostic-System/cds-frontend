@@ -10,20 +10,32 @@
       ประเภท <span class="text-black">{{ product.serial_no }}</span>
     </p>
     <p>
-      Serial Number <span class="text-black">{{ product.serial_no }}</span>
+      หมายเลขซีเรียล <span class="text-black">{{ product.serial_no }}</span>
     </p>
-    <span class="absolute right-[21px] cursor-pointer"
+    <span
+      class="absolute right-[21px] top-0 cursor-pointer"
+      @click="
+        added.includes(product.serial_no)
+          ? removeBookmark(product.serial_no)
+          : addBookmark(product.serial_no)
+      "
       ><svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
+        width="20"
+        height="26"
+        viewBox="0 0 20 26"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        :class="[
+          added.includes(product.serial_no)
+            ? 'fill-primary-500 stroke-primary-500'
+            : 'stroke-black'
+        ]"
       >
         <path
-          d="M11.049 2.92664C11.3483 2.00537 12.6517 2.00538 12.951 2.92664L14.4699 7.60055C14.6038 8.01254 14.9877 8.29148 15.4209 8.29149L20.3354 8.29168C21.3041 8.29172 21.7068 9.53127 20.9232 10.1007L16.9474 12.9895C16.5969 13.2441 16.4503 13.6955 16.5841 14.1075L18.1026 18.7815C18.4019 19.7028 17.3475 20.4689 16.5638 19.8995L12.5878 17.011C12.2373 16.7564 11.7627 16.7564 11.4122 17.011L7.43622 19.8995C6.65252 20.4689 5.5981 19.7028 5.8974 18.7815L7.41589 14.1075C7.54974 13.6955 7.40309 13.2441 7.05263 12.9895L3.07683 10.1007C2.29317 9.53127 2.69592 8.29172 3.66461 8.29168L8.57911 8.29149C9.01231 8.29148 9.39623 8.01254 9.53011 7.60055L11.049 2.92664Z"
-          stroke="#111827"
+          d="M1.25 4.25C1.25 2.86929 2.36929 1.75 3.75 1.75H16.25C17.6307 1.75 18.75 2.86929 18.75 4.25V24.25L10 19.875L1.25 24.25V4.25Z"
           stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         />
       </svg>
     </span>
@@ -40,6 +52,25 @@ export default {
     index: {
       type: Number,
       required: true
+    },
+    bookmarked: {
+      type: Array,
+      required: true
+    }
+  },
+  data() {
+    return {
+      added: this.bookmarked
+    }
+  },
+  methods: {
+    addBookmark(serial_no) {
+      this.added.push(serial_no)
+      this.$emit('add-bookmark', serial_no)
+    },
+    removeBookmark(serial_no) {
+      this.added.splice(this.added.indexOf(serial_no), 1)
+      this.$emit('remove-bookmark', serial_no)
     }
   }
 }
