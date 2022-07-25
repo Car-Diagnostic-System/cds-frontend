@@ -17,6 +17,12 @@
       >
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
+        :to="ROUTE_PATH.BOOKMARK"
+        v-if="isAuthenticated && isUser"
+        >รายการโปรด</router-link
+      >
+      <router-link
+        class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.INDEXING"
         v-if="isAuthenticated && isAdmin"
         >เพิ่มอาการรถยนต์</router-link
@@ -28,7 +34,7 @@
       v-if="isAuthenticated"
       @click="logout"
     >
-      ปุ่ม
+      {{ getUser }}
     </div>
     <!-- NOTE: mobile nav -->
     <div class="flex flex-row items-center gap-x-9 md:hidden">
@@ -131,6 +137,13 @@ export default {
     },
     isAdmin() {
       return this.$store.getters.getRole === ROLE.ADMIN
+    },
+    getUser() {
+      return (
+        JSON.parse(this.$store.getters.getCurrentUser).firstname +
+        ' ' +
+        JSON.parse(this.$store.getters.getCurrentUser).lastname
+      )
     }
   },
   methods: {
@@ -138,6 +151,7 @@ export default {
       AuthService.logout()
       this.$swal.fire({
         icon: 'success',
+        toast: true,
         title: 'ออกจากระบบเรียบร้อย',
         showConfirmButton: false,
         position: 'top-end',

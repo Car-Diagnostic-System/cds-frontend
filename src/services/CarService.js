@@ -11,7 +11,7 @@ export default {
     return axiosClient.get(`/cars/all/${page}/`)
   },
   getCarById(id) {
-    return axiosClient.get(`/cars/${id}/`)
+    return axiosClient.post(`/cars/${id}`)
   },
   updateCar(id, data) {
     return axiosClient.post(`/cars/${id}/update/`, data)

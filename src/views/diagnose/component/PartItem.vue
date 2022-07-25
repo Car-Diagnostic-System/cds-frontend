@@ -32,6 +32,9 @@
             :index="idx + 1"
             v-for="(product, idx) in part.product"
             :key="idx"
+            :bookmarked="bookmarked"
+            @add-bookmark="addBookmark"
+            @remove-bookmark="removeBookmark"
           />
         </div>
         <div
@@ -69,6 +72,10 @@ export default {
     rank: {
       type: Number,
       required: true
+    },
+    bookmarked: {
+      type: Array,
+      required: true
     }
   },
   methods: {
@@ -78,6 +85,12 @@ export default {
         title: 'แจ้งความต้องการสินค้า',
         html: 'ติดต่ออีเมล' + '<br>' + '<i>cds.developer.team@outlook.com</i>'
       })
+    },
+    addBookmark(serial_no) {
+      this.$emit('add-bookmark', serial_no)
+    },
+    removeBookmark(serial_no) {
+      this.$emit('remove-bookmark', serial_no)
     }
   }
 }
