@@ -9,16 +9,23 @@
     <HeaderText text="ข้อมูลส่วนตัว" />
     <div class="flex h-[300px] items-center justify-center">
       <img
+        v-if="isEdit && values.imageProfile"
         :src="values.imageProfile"
         class="my-5 h-52 w-52 rounded-full border-2 object-contain md:h-56 md:w-56"
         alt="avatar"
-        v-if="isEdit"
       />
+      <img
+        v-if="isEdit && !values.imageProfile"
+        src="@/assets/images/no-profile.png"
+        class="my-5 h-52 w-52 rounded-full border-2 object-contain md:h-56 md:w-56"
+        alt="avatar"
+      />
+
       <UploadField
+        v-if="!isEdit"
         name="imageProfile"
         label="รูปโปรไฟล์"
         :accept="['image/jpeg', 'image/png']"
-        v-else
       />
     </div>
     <div class="gap-x-5 md:flex">
@@ -46,43 +53,45 @@
         required
       />
     </div>
-    <div class="gap-x-5 md:flex">
+    <div v-if="getRole === ROLE.USER">
+      <div class="gap-x-5 md:flex">
+        <Dropdown
+          class="w-full"
+          name="brand"
+          label="ยี่ห้อรถยนต์"
+          placeholder="เลือกยี่ห้อรถยนต์"
+          :options="brands"
+          :disabled="isEdit"
+          @change="
+            () => {
+              onChangeBrand(values), setFieldValue('model', '')
+            }
+          "
+        />
+        <Dropdown
+          class="w-full"
+          name="model"
+          label="รุ่นรถยนต์"
+          placeholder="เลือกรุ่นรถยนต์"
+          :disabled="isEdit"
+          :options="models"
+          @change="
+            () => {
+              onChangeModel(values), setFieldValue('nickname', '')
+            }
+          "
+          :required="values.brand ? true : false"
+        />
+      </div>
       <Dropdown
-        class="w-full"
-        name="brand"
-        label="ยี่ห้อรถยนต์"
-        placeholder="เลือกยี่ห้อรถยนต์"
-        :options="brands"
+        name="nickname"
+        label="โฉมรถยนต์"
+        placeholder="เลือกโฉมรถยนต์"
+        :options="nicknames"
         :disabled="isEdit"
-        @change="
-          () => {
-            onChangeBrand(values), setFieldValue('model', '')
-          }
-        "
-      />
-      <Dropdown
-        class="w-full"
-        name="model"
-        label="รุ่นรถยนต์"
-        placeholder="เลือกรุ่นรถยนต์"
-        :disabled="isEdit"
-        :options="models"
-        @change="
-          () => {
-            onChangeModel(values), setFieldValue('nickname', '')
-          }
-        "
         :required="values.brand ? true : false"
       />
     </div>
-    <Dropdown
-      name="nickname"
-      label="โฉมรถยนต์"
-      placeholder="เลือกโฉมรถยนต์"
-      :options="nicknames"
-      :disabled="isEdit"
-      :required="values.brand ? true : false"
-    />
     <span
       class="absolute right-0 top-0 cursor-pointer"
       v-if="isEdit"
@@ -136,6 +145,7 @@ import AuthService from '@/services/AuthService'
 import CarService from '@/services/CarService'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import UploadField from '@/components/field/UploadField.vue'
+import ROLE from '@/constants/role'
 
 export default {
   name: 'AccountInformationView',
@@ -149,23 +159,27 @@ export default {
   },
   data() {
     yup.addMethod(yup.string, 'checkEmailValid', function (errorMessage) {
-      return this.test('check-id-valid', errorMessage, function (value) {
+      return this.test('check-email-valid', errorMessage, function (value) {
         const { path, createError } = this
         return new Promise((resolve, reject) => {
-          AuthService.checkEmailExist(value && value.length > 9 ? value : '')
-            .then((res) => {
-              if (
-                !res.data.email ||
-                value === JSON.parse(localStorage.getItem('user')).email
-              ) {
-                resolve(true)
-              } else {
-                reject(createError({ path, errorMessage }))
-              }
-            })
-            .catch(() => {
-              reject(false)
-            })
+          if (typeof value != 'undefined' && value.length > 9) {
+            AuthService.checkEmailExist(value)
+              .then((res) => {
+                if (
+                  !res.data.email ||
+                  value === JSON.parse(localStorage.getItem('user')).email
+                ) {
+                  resolve(true)
+                } else {
+                  reject(createError({ path, errorMessage }))
+                }
+              })
+              .catch(() => {
+                reject(false)
+              })
+          } else {
+            reject(false)
+          }
         })
       })
     })
@@ -208,7 +222,8 @@ export default {
         brand: {},
         model: {},
         nickname: {}
-      }
+      },
+      ROLE
     }
   },
   created() {
@@ -231,13 +246,15 @@ export default {
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
-      brand: { code: user.car.brand, label: user.car.brand_th },
-      model: { code: user.car.model, label: user.car.model_th },
-      nickname: {
-        code: user.car.nickname,
-        label: user.car.nickname,
-        carId: user.car.id
-      }
+      brand: user.car ? { code: user.car.brand, label: user.car.brand_th } : {},
+      model: user.car ? { code: user.car.model, label: user.car.model_th } : {},
+      nickname: user.car
+        ? {
+            code: user.car.nickname,
+            label: user.car.nickname,
+            carId: user.car.id
+          }
+        : {}
     }
   },
   computed: {
@@ -245,6 +262,9 @@ export default {
       return this.cars.map((car) => {
         return { code: car.brand, label: car.brand_th }
       })
+    },
+    getRole() {
+      return this.$store.getters.getRole
     }
   },
   methods: {
@@ -304,7 +324,9 @@ export default {
                     firstname: user.firstname,
                     lastname: user.lastname,
                     email: user.email,
-                    car: user.nickname ? user.nickname.carId : null
+                    car: Object.keys(user.nickname).length
+                      ? user.nickname.carId
+                      : null
                   }
                   AuthService.updateUserById(data)
                     .then(() => {
@@ -340,8 +362,11 @@ export default {
                 firstname: user.firstname,
                 lastname: user.lastname,
                 email: user.email,
-                car: user.nickname ? user.nickname.carId : null
+                car: Object.keys(user.nickname).length
+                  ? user.nickname.carId
+                  : null
               }
+              console.log(data)
               AuthService.updateUserById(data)
                 .then(() => {
                   this.$swal.fire({
@@ -362,7 +387,8 @@ export default {
                   console.log(e)
                   this.$swal.fire({
                     icon: 'error',
-                    title: 'อัพเดทข้อมูลไม่สำเร็จ'
+                    title: 'อัพเดทข้อมูลไม่สำเร็จ',
+                    showConfirmButton: false
                   })
                 })
             }

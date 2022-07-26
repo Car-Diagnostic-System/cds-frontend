@@ -5,7 +5,10 @@
     <div
       class="relative flex flex-col items-center justify-center gap-y-[10px] bg-white py-4 px-[21px]"
     >
-      <p class="cursor-pointer font-semibold text-primary-800" @click="onClick">
+      <p
+        class="cursor-pointer font-semibold text-primary-800 underline"
+        @click="onClick"
+      >
         {{ bookmark.item_name }}
       </p>
       <p>

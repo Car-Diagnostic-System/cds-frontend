@@ -124,7 +124,11 @@ router.beforeEach((to, from, next) => {
       }
       // NOTE: the admin role can access to indexing page
       if (store.getters.getRole === ROLE.ADMIN) {
-        if (to.name === PAGE_TITLE.INDEXING) {
+        if (
+          to.name === PAGE_TITLE.INDEXING ||
+          to.name === PAGE_TITLE.ACCOUNT_INFORMATION ||
+          to.name === PAGE_TITLE.ACCOUNT_PASSWORD
+        ) {
           next()
         } else {
           next({ path: ROUTE_PATH.HOME })

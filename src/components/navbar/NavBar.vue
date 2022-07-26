@@ -3,7 +3,7 @@
     class="flex min-h-[66px] justify-between bg-primary-400 py-6 px-5 text-[17px] leading-[17px] text-white md:px-7"
   >
     <!-- NOTE: desktop nav -->
-    <div class="hidden flex-row gap-x-9 md:flex">
+    <div class="hidden flex-row gap-x-9 md:flex" @click="desktopMenu = false">
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.HOME"
@@ -30,14 +30,56 @@
     </div>
 
     <div
-      class="hidden cursor-pointer rounded-full px-4 transition duration-300 ease-in-out hover:bg-primary-600 md:block"
+      class="hidden cursor-pointer flex-row rounded-md px-4 transition duration-300 ease-in-out hover:bg-primary-600 md:flex"
       v-if="isAuthenticated"
-      @click="logout"
+      @click="desktopMenu = !desktopMenu"
     >
-      {{ getUser }}
+      <span class="mr-2">{{ getUser }}</span>
+      <img
+        class="h-[20px] rounded-full object-contain"
+        :src="getCurrentUser.imageProfile"
+        v-if="getCurrentUser.imageProfile"
+      />
+      <img
+        class="h-[20px] rounded-full object-contain"
+        src="@/assets/images/no-profile.png"
+        v-else
+      />
     </div>
+    <transition name="fadeHeight" mode="out-in">
+      <div
+        class="absolute right-9 top-[67px] z-50 hidden h-[100px] w-[300px] flex-col items-center gap-y-3 rounded-b-xl border bg-white text-lg md:flex"
+        v-if="desktopMenu"
+        @click="desktopMenu = !desktopMenu"
+      >
+        <div />
+        <router-link
+          class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
+          :to="ROUTE_PATH.ACCOUNT"
+          v-if="isAuthenticated"
+          >ข้อมูลส่วนตัว</router-link
+        >
+        <!--         
+        <router-link
+          class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
+          :to="ROUTE_PATH.INDEXING"
+          v-if="isAuthenticated && isAdmin"
+          >เพิ่มอาการรถยนต์</router-link
+        > -->
+        <span
+          @click="logout"
+          class="cursor-pointer text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
+          v-if="isAuthenticated"
+          >ออกจากระบบ</span
+        >
+      </div>
+    </transition>
+
     <!-- NOTE: mobile nav -->
-    <div class="flex flex-row items-center gap-x-9 md:hidden">
+    <div
+      class="flex flex-row items-center gap-x-9 md:hidden"
+      @click="mobileMenu = false"
+    >
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.HOME"
@@ -87,27 +129,48 @@
     </div>
     <transition name="fadeHeight" mode="out-in">
       <div
-        class="absolute left-0 top-[99px] z-50 flex h-full w-full flex-col items-center gap-y-5 border bg-white text-xl"
+        class="absolute left-0 top-[99px] z-50 flex h-full w-full flex-col items-center gap-y-5 border bg-white text-xl md:hidden"
         v-if="mobileMenu"
       >
         <div />
-        <div @click="mobileMenu = !mobileMenu">
+        <div @click="mobileMenu = !mobileMenu" v-if="isAuthenticated">
+          <router-link
+            class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
+            :to="ROUTE_PATH.ACCOUNT"
+            >ข้อมูลส่วนตัว</router-link
+          >
+        </div>
+        <!-- <div @click="mobileMenu = !mobileMenu" v-if="isAuthenticated && isUser">
           <router-link
             class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
             :to="ROUTE_PATH.DIAGNOSE"
-            v-if="isAuthenticated && isUser"
             >ประเมินอาการรถยนต์</router-link
           >
         </div>
-        <div @click="mobileMenu = !mobileMenu">
+        <div @click="mobileMenu = !mobileMenu" v-if="isAuthenticated && isUser">
+          <router-link
+            class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
+            :to="ROUTE_PATH.BOOKMARK"
+            >รายการโปรด</router-link
+          >
+        </div>
+        <div
+          @click="mobileMenu = !mobileMenu"
+          v-if="isAuthenticated && isAdmin"
+        >
           <router-link
             @click="mobileMenu = !mobileMenu"
             class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
             :to="ROUTE_PATH.INDEXING"
-            v-if="isAuthenticated && isAdmin"
             >เพิ่มอาการรถยนต์</router-link
           >
-        </div>
+        </div> -->
+        <span
+          @click="logout"
+          class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
+          v-if="isAuthenticated"
+          >ออกจากระบบ</span
+        >
       </div>
     </transition>
   </nav>
@@ -123,6 +186,7 @@ export default {
     return {
       ROUTE_PATH,
       mobileMenu: false,
+      desktopMenu: false,
       firstname: 'John',
       lastname: 'Doe',
       ROLE
@@ -144,6 +208,9 @@ export default {
         ' ' +
         JSON.parse(this.$store.getters.getCurrentUser).lastname
       )
+    },
+    getCurrentUser() {
+      return JSON.parse(this.$store.getters.getCurrentUser)
     }
   },
   methods: {

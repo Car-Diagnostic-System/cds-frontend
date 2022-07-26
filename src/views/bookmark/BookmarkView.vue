@@ -37,18 +37,21 @@ export default {
     const userId = JSON.parse(this.$store.getters.getCurrentUser).id
     BookmarkService.getBookmarkByUserId(userId)
       .then((res) => {
-        console.log(res)
+        if (res.data.message) {
+          this.$swal.fire({
+            icon: 'info',
+            title: 'ไม่พบรายการโปรด',
+            footer: `<u><a href="${ROUTE_PATH.DIAGNOSE}">สามารถเพิ่มรายการโปรดได้หลังจาก ประเมินอาการรถยนต์</a></u>`,
+            confirmButtonColor: '#02b1f5',
+            confirmButtonText: 'ตกลง'
+          })
+        } else {
+          this.bookmarks = res.data
+        }
         this.bookmarks = res.data.products
       })
       .catch((err) => {
         console.log(err)
-        this.$swal.fire({
-          icon: 'info',
-          title: 'ไม่พบรายการโปรด',
-          footer: `<a href="${ROUTE_PATH.DIAGNOSE}">คุณสามารถเพิ่มรายการโปรดได้ที่นี่</a>`,
-          confirmButtonColor: '#02b1f5',
-          confirmButtonText: 'ตกลง'
-        })
       })
   },
   methods: {
@@ -90,10 +93,17 @@ export default {
         html: `
         <p><b>ยี่ห้อ: </b>${bookmark.brand}</p>
         <p><b>หมายเลขซีเรียล: </b>${bookmark.serial_no}</p>
-        <p><b>กลุ่มสินค้า: </b>${bookmark.item_group}</p>
-        <p><b>รายละเอียดการประกอบ: </b>${bookmark.fitment_detail}</p>
-        <p><b>ใช้สำหรับ:</b> ${bookmark.car_brand} ${bookmark.car_model} ${bookmark.nickname}</p>
-        `,
+        <p><b>กลุ่มสินค้า: </b>${
+          bookmark.item_group ? bookmark.item_group : '-'
+        }</p>
+        <p><b>รายละเอียดการประกอบ: </b>${
+          bookmark.fitment_detail ? bookmark.fitment_detail : '-'
+        }</p>
+        <p><b>ใช้สำหรับรถยนตร์ :</b> ${
+          bookmark.car_brand || bookmark.car_model || bookmark.nickname
+            ? `${bookmark.car_brand} ${bookmark.car_model} ${bookmark.nickname}`
+            : '-'
+        } </p>`,
         showConfirmButton: false,
         showCloseButton: true
       })

@@ -136,20 +136,24 @@ export default {
   },
   data() {
     yup.addMethod(yup.string, 'checkEmailValid', function (errorMessage) {
-      return this.test('check-id-valid', errorMessage, function (value) {
+      return this.test('check-email-valid', errorMessage, function (value) {
         const { path, createError } = this
         return new Promise((resolve, reject) => {
-          AuthService.checkEmailExist(value ? value : '')
-            .then((res) => {
-              if (!res.data.email) {
-                resolve(true)
-              } else {
-                reject(createError({ path, errorMessage }))
-              }
-            })
-            .catch(() => {
-              reject(false)
-            })
+          if (typeof value != 'undefined' && value.length > 9) {
+            AuthService.checkEmailExist(value)
+              .then((res) => {
+                if (!res.data.email) {
+                  resolve(true)
+                } else {
+                  reject(createError({ path, errorMessage }))
+                }
+              })
+              .catch(() => {
+                reject(false)
+              })
+          } else {
+            reject(false)
+          }
         })
       })
     })
