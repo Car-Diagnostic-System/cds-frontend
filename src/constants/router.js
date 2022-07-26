@@ -5,7 +5,10 @@ const ROUTE_PATH = {
   INDEXING: '/indexing',
   LOGIN: '/login',
   REGISTER: '/register',
-  BOOKMARK: '/bookmark'
+  BOOKMARK: '/bookmark',
+  ACCOUNT: '/account',
+  ACCOUNT_INFORMATION: '/information',
+  ACCOUNT_PASSWORD: '/password'
 }
 
 export default ROUTE_PATH

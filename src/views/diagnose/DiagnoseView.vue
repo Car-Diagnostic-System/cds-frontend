@@ -145,9 +145,9 @@ export default {
       bookmarked: [],
       initData: {
         brand: '',
-        model: '',
-        nickname: '',
-        symptom: ''
+        model: {},
+        nickname: {},
+        symptom: {}
       }
     }
   },
@@ -160,15 +160,17 @@ export default {
         this.$swal.fire({
           icon: 'error',
           title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
-          text: 'โปรดลองอีกครั้งภายหลัง'
+          text: 'โปรดลองอีกครั้งภายหลัง',
+          confirmButtonColor: '#02b1f5',
+          confirmButtonText: 'ตกลง'
         })
       })
     const user = JSON.parse(this.$store.getters.getCurrentUser)
     if (user.car) {
       this.initData = {
-        brand: user.car.brand,
-        model: user.car.model,
-        nickname: user.car.nickname
+        brand: { code: user.car.brand, label: user.car.brand_th },
+        model: { code: user.car.model, label: user.car.model_th },
+        nickname: { code: user.car.nickname, label: user.car.nickname }
       }
     }
 
@@ -191,6 +193,14 @@ export default {
   },
   methods: {
     onSubmit(e) {
+      this.$swal.fire({
+        icon: 'success',
+        toast: true,
+        title: 'กำลังประมวลผล',
+        showConfirmButton: false,
+        position: 'top-end',
+        timer: 2000
+      })
       this.parts = []
       const body = {
         brand: e.brand.code,
@@ -208,7 +218,9 @@ export default {
               this.$swal.fire({
                 icon: 'error',
                 title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
-                text: 'โปรดลองอีกครั้งภายหลัง'
+                text: 'โปรดลองอีกครั้งภายหลัง',
+                confirmButtonColor: '#02b1f5',
+                confirmButtonText: 'ตกลง'
               })
             })
         )

@@ -123,13 +123,17 @@ export default {
                 this.$swal.fire({
                   icon: 'error',
                   title: 'มีบางอย่างผิดพลาด',
-                  text: 'โปรดตรวจสอบไฟล์ตามข้อกำหนดอีกครั้ง'
+                  text: 'โปรดตรวจสอบไฟล์ตามข้อกำหนดอีกครั้ง',
+                  confirmButtonColor: '#02b1f5',
+                  confirmButtonText: 'ตกลง'
                 })
               } else {
                 this.$swal.fire({
                   icon: 'error',
                   title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
-                  text: 'โปรดลองอีกครั้งภายหลัง'
+                  text: 'โปรดลองอีกครั้งภายหลัง',
+                  confirmButtonColor: '#02b1f5',
+                  confirmButtonText: 'ตกลง'
                 })
               }
             })

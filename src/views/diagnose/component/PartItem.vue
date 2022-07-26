@@ -83,7 +83,9 @@ export default {
       this.$swal.fire({
         icon: 'info',
         title: 'แจ้งความต้องการสินค้า',
-        html: 'ติดต่ออีเมล' + '<br>' + '<i>cds.developer.team@outlook.com</i>'
+        html: 'ติดต่ออีเมล' + '<br>' + '<i>cds.developer.team@outlook.com</i>',
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#02b1f5'
       })
     },
     addBookmark(serial_no) {

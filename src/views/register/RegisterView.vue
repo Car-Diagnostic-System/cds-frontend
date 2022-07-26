@@ -139,17 +139,17 @@ export default {
       return this.test('check-id-valid', errorMessage, function (value) {
         const { path, createError } = this
         return new Promise((resolve, reject) => {
-          if (value && value.length > 9) {
-            AuthService.checkEmailExist(value).then((res) => {
+          AuthService.checkEmailExist(value ? value : '')
+            .then((res) => {
               if (!res.data.email) {
                 resolve(true)
               } else {
                 reject(createError({ path, errorMessage }))
               }
             })
-          } else {
-            reject(createError({ path, errorMessage }))
-          }
+            .catch(() => {
+              reject(false)
+            })
         })
       })
     })
@@ -159,6 +159,7 @@ export default {
       email: yup
         .string()
         .required('กรุณาใส่อีเมล')
+        .email('กรุณาใส่อีเมลที่ถูกต้อง')
         .checkEmailValid('อีเมลนี้ถูกใช้งานแล้ว'),
       password: yup
         .string()
@@ -204,7 +205,9 @@ export default {
         this.$swal.fire({
           icon: 'error',
           title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
-          text: 'โปรดลองอีกครั้งภายหลัง'
+          text: 'โปรดลองอีกครั้งภายหลัง',
+          confirmButtonColor: '#02b1f5',
+          confirmButtonText: 'ตกลง'
         })
       })
   },
@@ -217,29 +220,82 @@ export default {
   },
   methods: {
     onSubmit(user) {
-      // NOTE: this is mapping the data to the correct format
-      const data = {
-        imageProfile: user.imageProfile ? user.imageProfile : null,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        password: user.password,
-        car: user.nickname ? user.nickname.carId : null
-      }
-      console.log(data)
-      AuthService.register(data)
-        .then(() => {
-          this.$swal.fire({
-            icon: 'success',
-            title: 'สมัครสมาชิกสำเร็จ'
-          })
-          this.$router.push(ROUTE_PATH.LOGIN)
+      this.$swal
+        .fire({
+          title: 'ต้องยืนยันข้อมูลการลงทะเบียนหรือไม่?',
+          text: 'คุณสามารถแก้ไขข้อมูลได้ภายหลัง',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#02b1f5',
+          cancelButtonColor: '#ff4327',
+          confirmButtonText: 'ยืนยัน',
+          cancelButtonText: 'ยกเลิก'
         })
-        .catch(() => {
-          this.$swal.fire({
-            icon: 'error',
-            title: 'สมัครสมาชิกไม่สำเร็จ'
-          })
+        .then((res) => {
+          if (res.isConfirmed) {
+            // NOTE: this is mapping the data to the correct format
+            if (user.imageProfile) {
+              AuthService.uploadFile(user.imageProfile).then((res) => {
+                const data = {
+                  imageProfile: res.data,
+                  firstname: user.firstname,
+                  lastname: user.lastname,
+                  email: user.email,
+                  password: user.password,
+                  car: user.nickname ? user.nickname.carId : null
+                }
+                AuthService.register(data)
+                  .then(() => {
+                    this.$swal.fire({
+                      icon: 'success',
+                      title: 'สมัครสมาชิกสำเร็จ',
+                      showConfirmButton: false,
+                      timer: 2000
+                    })
+                    setTimeout(() => {
+                      this.$router.push(ROUTE_PATH.LOGIN)
+                    }, 2000)
+                  })
+                  .catch(() => {
+                    this.$swal.fire({
+                      icon: 'error',
+                      title: 'สมัครสมาชิกไม่สำเร็จ',
+                      showConfirmButton: false,
+                      timer: 2000
+                    })
+                  })
+              })
+            } else {
+              const data = {
+                imageProfile: null,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email,
+                password: user.password,
+                car: user.nickname ? user.nickname.carId : null
+              }
+              AuthService.register(data)
+                .then(() => {
+                  this.$swal.fire({
+                    icon: 'success',
+                    title: 'สมัครสมาชิกสำเร็จ',
+                    showConfirmButton: false,
+                    timer: 2000
+                  })
+                  setTimeout(() => {
+                    this.$router.push(ROUTE_PATH.LOGIN)
+                  }, 2000)
+                })
+                .catch(() => {
+                  this.$swal.fire({
+                    icon: 'error',
+                    title: 'สมัครสมาชิกไม่สำเร็จ',
+                    showConfirmButton: false,
+                    timer: 2000
+                  })
+                })
+            }
+          }
         })
     },
     onChangeBrand(e) {
