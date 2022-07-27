@@ -154,7 +154,8 @@ export default {
       .then((res) => {
         this.cars = res.data
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err)
         this.$swal.fire({
           icon: 'error',
           title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',

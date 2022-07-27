@@ -17,14 +17,13 @@
 <script>
 import { Uploader } from 'uploader'
 import { UploadDropzone } from '@upload-io/vue-uploader'
-import BaseLabel from './BaseLabel.vue'
+import BaseLabel from './base/BaseLabel.vue'
 import { useField } from 'vee-validate'
-import BaseErrorMessage from './BaseErrorMessage.vue'
+import BaseErrorMessage from './base/BaseErrorMessage.vue'
 
-// Create one instance per app.
+// NOTE: Create one instance per app.
 const uploader = new Uploader({ apiKey: 'free' })
-// NOTE: line below is accept xlsx
-//  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
 export default {
   name: 'UploadField',
   components: {

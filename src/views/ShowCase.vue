@@ -61,7 +61,7 @@ export default {
     TextField,
     Dropdown,
     UploadField,
-    PrimaryButton
+    PrimaryButton,
   },
   data() {
     const schema = yup.object().shape({

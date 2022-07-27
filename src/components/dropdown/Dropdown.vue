@@ -18,7 +18,6 @@
             <span class="w-full" v-else
               >{{ option.label }} ({{ option.code }})</span
             >
-            <!-- <CheckIcon class="h-5 w-5" /> -->
           </div>
         </template>
       </v-select>
@@ -29,10 +28,9 @@
   </div>
 </template>
 <script>
-import BaseLabel from '../field/BaseLabel.vue'
-import BaseErrorMessage from '../field/BaseErrorMessage'
+import BaseLabel from '../field/base/BaseLabel.vue'
+import BaseErrorMessage from '../field/base/BaseErrorMessage'
 import { Field, useField } from 'vee-validate'
-// import CheckIcon from '@/assets/icons/check.svg?inline'
 export default {
   name: 'DropDown',
   components: {
