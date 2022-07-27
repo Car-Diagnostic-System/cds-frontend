@@ -245,8 +245,12 @@ export default {
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
-      brand: user.car ? { code: user.car.brand, label: user.car.brand_th } : undefined,
-      model: user.car ? { code: user.car.model, label: user.car.model_th } : undefined,
+      brand: user.car
+        ? { code: user.car.brand, label: user.car.brand_th }
+        : undefined,
+      model: user.car
+        ? { code: user.car.model, label: user.car.model_th }
+        : undefined,
       nickname: user.car
         ? {
             code: user.car.nickname,
@@ -297,6 +301,7 @@ export default {
         })
     },
     onSubmit(user) {
+      console.log(user.nickname)
       this.$swal
         .fire({
           title: 'ต้งอการยืนยันข้อมูลหรือไม่?',
@@ -323,9 +328,10 @@ export default {
                     firstname: user.firstname,
                     lastname: user.lastname,
                     email: user.email,
-                    car: Object.keys(user.nickname).length
-                      ? user.nickname.carId
-                      : null
+                    car:
+                      typeof user.nickname != 'undefined'
+                        ? user.nickname.carId
+                        : null
                   }
                   AuthService.updateUserById(data)
                     .then(() => {
@@ -361,9 +367,10 @@ export default {
                 firstname: user.firstname,
                 lastname: user.lastname,
                 email: user.email,
-                car: Object.keys(user.nickname).length
-                  ? user.nickname.carId
-                  : null
+                car:
+                  typeof user.nickname != 'undefined'
+                    ? user.nickname.carId
+                    : null
               }
               console.log(data)
               AuthService.updateUserById(data)

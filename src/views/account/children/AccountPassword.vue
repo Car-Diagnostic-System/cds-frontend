@@ -8,6 +8,7 @@
     <HeaderText text="เปลี่ยนรหัสผ่าน" class="mb-5" />
     <div>
       <TextField
+        type="password"
         name="password"
         label="รหัสผ่านเดิม"
         placeholder="********"
@@ -16,6 +17,7 @@
     </div>
     <div>
       <TextField
+        type="password"
         name="newPassword"
         label="รหัสผ่านใหม่"
         placeholder="********"
@@ -24,6 +26,7 @@
     </div>
     <div>
       <TextField
+        type="password"
         name="comfirmPassword"
         label="ยืนยันรหัสผ่านใหม่"
         placeholder="********"
