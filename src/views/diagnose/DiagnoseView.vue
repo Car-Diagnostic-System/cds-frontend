@@ -134,14 +134,12 @@ export default {
         .required('โปรดกรอกอาการที่พบ')
         .matches(/^[A-Za-z0-9ก-๙ ]+$/, 'กรุณาระบุอาการที่พบ')
     })
-    const { carInfo } = this.$store.getters.getCurrentUser
     return {
       schema,
       cars: [],
       models: [],
       nickname: [],
       parts: [],
-      carInfo,
       bookmarked: [],
       initData: {
         brand: '',
@@ -173,13 +171,16 @@ export default {
         nickname: { code: user.car.nickname, label: user.car.nickname }
       }
     }
-
-    BookmarkService.getBookmarkByUserId(user.id).then((res) => {
-      let products = res.data.products
-      if (products.length) {
-        this.bookmarked = products.map((item) => item.serial_no)
-      }
-    })
+    BookmarkService.getBookmarkByUserId(user.id)
+      .then((res) => {
+        let products = res.data.products
+        if (products && products.length) {
+          this.bookmarked = products.map((item) => item.serial_no)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   computed: {
     brands() {

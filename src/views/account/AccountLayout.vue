@@ -17,7 +17,9 @@
           >
         </div>
       </div>
-      <div class="flex w-full flex-col border-2 border-neutral-200 md:w-3/4">
+      <div
+        class="flex w-full flex-col border-t-2 border-neutral-200 md:w-3/4 md:border-l-2 md:border-t-0"
+      >
         <router-view></router-view>
       </div>
     </div>
