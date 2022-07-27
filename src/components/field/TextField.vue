@@ -26,9 +26,9 @@
 </template>
 <script>
 import { useField } from 'vee-validate'
-import BaseLabel from './BaseLabel.vue'
-import BaseField from './BaseField.vue'
-import BaseErrorMessage from './BaseErrorMessage.vue'
+import BaseLabel from './base/BaseLabel.vue'
+import BaseField from './base/BaseField.vue'
+import BaseErrorMessage from './base/BaseErrorMessage.vue'
 
 export default {
   name: 'TextField',
