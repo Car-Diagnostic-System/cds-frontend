@@ -140,7 +140,7 @@
             >ข้อมูลส่วนตัว</router-link
           >
         </div>
-        <!-- <div @click="mobileMenu = !mobileMenu" v-if="isAuthenticated && isUser">
+        <div @click="mobileMenu = !mobileMenu" v-if="isAuthenticated && isUser">
           <router-link
             class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
             :to="ROUTE_PATH.DIAGNOSE"
@@ -164,7 +164,7 @@
             :to="ROUTE_PATH.INDEXING"
             >เพิ่มอาการรถยนต์</router-link
           >
-        </div> -->
+        </div>
         <span
           @click="logout"
           class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
