@@ -32,12 +32,14 @@
         </div>
         <div class="gap-x-5 md:flex">
           <TextField
+            type="password"
             name="password"
             label="รหัสผ่าน"
             placeholder="รหัสผ่าน"
             required
           />
           <TextField
+            type="password"
             name="passwordConfirmation"
             label="ยืนยันรหัสผ่าน"
             placeholder="ยืนยันรหัสผ่าน"
