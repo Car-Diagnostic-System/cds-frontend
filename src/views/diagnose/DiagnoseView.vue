@@ -143,9 +143,9 @@ export default {
       bookmarked: [],
       initData: {
         brand: '',
-        model: {},
-        nickname: {},
-        symptom: {}
+        model: '',
+        nickname: '',
+        symptom: ''
       }
     }
   },

@@ -134,7 +134,6 @@
     </div>
   </Form>
 </template>
-
 <script>
 import HeaderText from '@/components/form/HeaderText.vue'
 import TextField from '@/components/field/TextField.vue'
@@ -246,15 +245,15 @@ export default {
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
-      brand: user.car ? { code: user.car.brand, label: user.car.brand_th } : {},
-      model: user.car ? { code: user.car.model, label: user.car.model_th } : {},
+      brand: user.car ? { code: user.car.brand, label: user.car.brand_th } : undefined,
+      model: user.car ? { code: user.car.model, label: user.car.model_th } : undefined,
       nickname: user.car
         ? {
             code: user.car.nickname,
             label: user.car.nickname,
             carId: user.car.id
           }
-        : {}
+        : undefined
     }
   },
   computed: {

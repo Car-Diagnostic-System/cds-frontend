@@ -69,7 +69,10 @@ export default {
   },
   data() {
     const schema = yup.object().shape({
-      email: yup.string().required('กรุณาใส่อีเมล'),
+      email: yup
+        .string()
+        .email('กรุณาใส่อีเมลที่ถูกต้อง')
+        .required('กรุณาใส่อีเมล'),
       password: yup.string().required('กรุณาใส่รหัสผ่าน')
     })
     return {
