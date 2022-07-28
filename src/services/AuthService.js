@@ -20,17 +20,5 @@ export default {
   },
   updatePasswordByUserId(data) {
     return apiClient.post('/auth/update-password', data)
-  },
-  uploadFile(file) {
-    let formData = new FormData()
-    formData.append('file', file)
-    return apiClient.post('/bucket/upload-file', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-  },
-  getUserInfo(data) {
-    return apiClient.post('/auth/user-info', { userId: data })
   }
 }
