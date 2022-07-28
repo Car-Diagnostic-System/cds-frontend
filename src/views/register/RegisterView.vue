@@ -122,6 +122,7 @@ import * as yup from 'yup'
 import CarService from '@/services/CarService'
 import ROUTE_PATH from '@/constants/router'
 import AuthService from '@/services/AuthService'
+import BucketService from '@/services/BucketService'
 import YupPassword from 'yup-password'
 import UploadField from '@/components/field/UploadField.vue'
 YupPassword(yup)
@@ -241,7 +242,7 @@ export default {
           if (res.isConfirmed) {
             // NOTE: this is mapping the data to the correct format
             if (user.imageProfile) {
-              AuthService.uploadFile(user.imageProfile).then((res) => {
+              BucketService.uploadFile(user.imageProfile).then((res) => {
                 const data = {
                   imageProfile: res.data,
                   firstname: user.firstname,

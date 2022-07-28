@@ -142,6 +142,7 @@ import { Form } from 'vee-validate'
 import * as yup from 'yup'
 import AuthService from '@/services/AuthService'
 import CarService from '@/services/CarService'
+import BucketService from '@/services/BucketService'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import UploadField from '@/components/field/UploadField.vue'
 import ROLE from '@/constants/role'
@@ -320,7 +321,7 @@ export default {
               this.$store.getters.getCurrentUser
             ).imageProfile
             if (user.imageProfile !== imageProfile) {
-              AuthService.uploadFile(user.imageProfile)
+              BucketService.uploadFile(user.imageProfile)
                 .then((res) => {
                   const data = {
                     userId: JSON.parse(this.$store.getters.getCurrentUser).id,
@@ -334,20 +335,16 @@ export default {
                         : null
                   }
                   AuthService.updateUserById(data)
-                    .then(() => {
+                    .then((res) => {
                       this.$swal.fire({
                         icon: 'success',
                         title: 'อัพเดทข้อมูลสำเร็จ',
                         showConfirmButton: false
                       })
-                      AuthService.getUserInfo(
-                        JSON.parse(this.$store.getters.getCurrentUser).id
-                      ).then((res) => {
-                        localStorage.setItem('user', JSON.stringify(res.data))
-                        setTimeout(() => {
-                          location.reload()
-                        }, 2000)
-                      })
+                      localStorage.setItem('user', JSON.stringify(res.data))
+                      setTimeout(() => {
+                        location.reload()
+                      }, 2000)
                     })
                     .catch((e) => {
                       console.log(e)
@@ -374,20 +371,16 @@ export default {
               }
               console.log(data)
               AuthService.updateUserById(data)
-                .then(() => {
+                .then((res) => {
                   this.$swal.fire({
                     icon: 'success',
                     title: 'อัพเดทข้อมูลสำเร็จ',
                     showConfirmButton: false
                   })
-                  AuthService.getUserInfo(
-                    JSON.parse(this.$store.getters.getCurrentUser).id
-                  ).then((res) => {
-                    localStorage.setItem('user', JSON.stringify(res.data))
-                    setTimeout(() => {
-                      location.reload()
-                    }, 2000)
-                  })
+                  localStorage.setItem('user', JSON.stringify(res.data))
+                  setTimeout(() => {
+                    location.reload()
+                  }, 2000)
                 })
                 .catch((e) => {
                   console.log(e)
