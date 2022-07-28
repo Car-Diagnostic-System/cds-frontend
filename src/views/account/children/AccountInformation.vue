@@ -53,7 +53,7 @@
         required
       />
     </div>
-    <div v-if="getRole === ROLE.USER">
+    <div v-if="getRole === ROLE.MEMBER">
       <div class="gap-x-5 md:flex">
         <Dropdown
           class="w-full"
@@ -113,9 +113,9 @@
         />
       </svg>
     </span>
-    <div class="my-[15px] flex justify-center">
+    <div class="my-[15px] flex justify-between" v-if="!isEdit">
+      <SecondaryButton :click="onCancel">ยกเลิก</SecondaryButton>
       <PrimaryButton
-        v-if="!isEdit"
         type="submit"
         :isLoading="isSubmitting"
         :click="
@@ -144,6 +144,7 @@ import AuthService from '@/services/AuthService'
 import CarService from '@/services/CarService'
 import BucketService from '@/services/BucketService'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
+import SecondaryButton from '@/components/button/SecondaryButton.vue'
 import UploadField from '@/components/field/UploadField.vue'
 import ROLE from '@/constants/role'
 
@@ -155,6 +156,7 @@ export default {
     Dropdown,
     Form,
     PrimaryButton,
+    SecondaryButton,
     UploadField
   },
   data() {
@@ -167,7 +169,7 @@ export default {
               .then((res) => {
                 if (
                   !res.data.email ||
-                  value === JSON.parse(localStorage.getItem('user')).email
+                  value === this.$store.getters.getCurrentUser.email
                 ) {
                   resolve(true)
                 } else {
@@ -231,16 +233,33 @@ export default {
       .then((res) => {
         this.cars = res.data
       })
-      .catch(() => {
-        this.$swal.fire({
-          icon: 'error',
-          title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
-          text: 'โปรดลองอีกครั้งภายหลัง',
-          confirmButtonColor: '#02b1f5',
-          confirmButtonText: 'ตกลง'
-        })
+      .catch((err) => {
+        if (err.response.status === 403) {
+          this.$swal
+            .fire({
+              icon: 'error',
+              title: 'โทเคนของคุณไม่สามารถเข้าใช้งานได้',
+              text: 'โปรดลองเข้าสู่ระบบอีกครั้ง',
+              confirmButtonColor: '#02b1f5',
+              confirmButtonText: 'ตกลง',
+              reverseButtons: true
+            })
+            .then(() => {
+              AuthService.logout()
+              location.reload()
+            })
+        } else {
+          this.$swal.fire({
+            icon: 'error',
+            title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
+            text: 'โปรดลองอีกครั้งภายหลัง',
+            confirmButtonColor: '#02b1f5',
+            confirmButtonText: 'ตกลง',
+            reverseButtons: true
+          })
+        }
       })
-    const user = JSON.parse(this.$store.getters.getCurrentUser)
+    const user = this.$store.getters.getCurrentUser
     this.initData = {
       imageProfile: user.imageProfile,
       firstname: user.firstname,
@@ -305,26 +324,25 @@ export default {
       console.log(user.nickname)
       this.$swal
         .fire({
-          title: 'ต้งอการยืนยันข้อมูลหรือไม่?',
+          title: 'ยืนยันข้อมูลหรือไม่?',
           text: 'คุณสามารถแก้ไขข้อมูลได้ภายหลัง',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#02b1f5',
           cancelButtonColor: '#ff4327',
           confirmButtonText: 'ยืนยัน',
-          cancelButtonText: 'ยกเลิก'
+          cancelButtonText: 'ยกเลิก',
+          reverseButtons: true
         })
         .then((res) => {
           if (res.isConfirmed) {
             this.isSubmitting = true
-            let imageProfile = JSON.parse(
-              this.$store.getters.getCurrentUser
-            ).imageProfile
+            let imageProfile = this.$store.getters.getCurrentUser.imageProfile
             if (user.imageProfile !== imageProfile) {
               BucketService.uploadFile(user.imageProfile)
                 .then((res) => {
                   const data = {
-                    userId: JSON.parse(this.$store.getters.getCurrentUser).id,
+                    userId: this.$store.getters.getCurrentUser.id,
                     imageProfile: res.data,
                     firstname: user.firstname,
                     lastname: user.lastname,
@@ -334,7 +352,7 @@ export default {
                         ? user.nickname.carId
                         : null
                   }
-                  AuthService.updateUserById(data)
+                  AuthService.updateInfoByUserId(data)
                     .then((res) => {
                       this.$swal.fire({
                         icon: 'success',
@@ -350,7 +368,8 @@ export default {
                       console.log(e)
                       this.$swal.fire({
                         icon: 'error',
-                        title: 'อัพเดทข้อมูลไม่สำเร็จ'
+                        title: 'อัพเดทข้อมูลไม่สำเร็จ',
+                        showConfirmButton: false
                       })
                     })
                 })
@@ -359,7 +378,7 @@ export default {
                 })
             } else {
               const data = {
-                userId: JSON.parse(this.$store.getters.getCurrentUser).id,
+                userId: this.$store.getters.getCurrentUser.id,
                 imageProfile: imageProfile,
                 firstname: user.firstname,
                 lastname: user.lastname,
@@ -370,7 +389,7 @@ export default {
                     : null
               }
               console.log(data)
-              AuthService.updateUserById(data)
+              AuthService.updateInfoByUserId(data)
                 .then((res) => {
                   this.$swal.fire({
                     icon: 'success',
@@ -391,6 +410,25 @@ export default {
                   })
                 })
             }
+          }
+        })
+    },
+    onCancel() {
+      this.$swal
+        .fire({
+          title: 'ยกเลิกแก้ไขข้อมูล?',
+          text: 'คุณสามารถแก้ไขข้อมูลได้ภายหลัง',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#02b1f5',
+          cancelButtonColor: '#ff4327',
+          confirmButtonText: 'ยืนยัน',
+          cancelButtonText: 'ยกเลิก',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.isConfirmed) {
+            location.reload()
           }
         })
     }

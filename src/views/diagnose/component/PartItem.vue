@@ -35,6 +35,7 @@
             :bookmarked="bookmarked"
             @add-bookmark="addBookmark"
             @remove-bookmark="removeBookmark"
+            @show-detail="showDetail"
           />
         </div>
         <div
@@ -85,7 +86,8 @@ export default {
         title: 'แจ้งความต้องการสินค้า',
         html: 'ติดต่ออีเมล' + '<br>' + '<i>cds.developer.team@outlook.com</i>',
         confirmButtonText: 'ตกลง',
-        confirmButtonColor: '#02b1f5'
+        confirmButtonColor: '#02b1f5',
+        reverseButtons: true
       })
     },
     addBookmark(serial_no) {
@@ -93,6 +95,9 @@ export default {
     },
     removeBookmark(serial_no) {
       this.$emit('remove-bookmark', serial_no)
+    },
+    showDetail(item) {
+      this.$emit('show-detail', item)
     }
   }
 }

@@ -88,6 +88,7 @@
             :bookmarked="bookmarked"
             @add-bookmark="addBookmark"
             @remove-bookmark="removeBookmark"
+            @show-detail="showDetail"
           />
         </div>
       </div>
@@ -102,6 +103,7 @@ import Dropdown from '@/components/dropdown/Dropdown.vue'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import HeaderText from '@/components/form/HeaderText.vue'
 import SymptomService from '@/services/SymptomService.js'
+import AuthService from '@/services/AuthService.js'
 import CarService from '@/services/CarService.js'
 import BookmarkService from '@/services/BookmarkService.js'
 import PartItem from './component/PartItem.vue'
@@ -155,16 +157,32 @@ export default {
         this.cars = res.data
       })
       .catch((err) => {
-        console.log(err)
-        this.$swal.fire({
-          icon: 'error',
-          title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
-          text: 'โปรดลองอีกครั้งภายหลัง',
-          confirmButtonColor: '#02b1f5',
-          confirmButtonText: 'ตกลง'
-        })
+        if (err.response.status === 403) {
+          this.$swal
+            .fire({
+              icon: 'error',
+              title: 'โทเคนของคุณไม่สามารถเข้าใช้งานได้',
+              text: 'โปรดลองเข้าสู่ระบบอีกครั้ง',
+              confirmButtonColor: '#02b1f5',
+              confirmButtonText: 'ตกลง',
+              reverseButtons: true
+            })
+            .then(() => {
+              AuthService.logout()
+              location.reload()
+            })
+        } else {
+          this.$swal.fire({
+            icon: 'error',
+            title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
+            text: 'โปรดลองอีกครั้งภายหลัง',
+            confirmButtonColor: '#02b1f5',
+            confirmButtonText: 'ตกลง',
+            reverseButtons: true
+          })
+        }
       })
-    const user = JSON.parse(this.$store.getters.getCurrentUser)
+    const user = this.$store.getters.getCurrentUser
     if (user.car) {
       this.initData = {
         brand: { code: user.car.brand, label: user.car.brand_th },
@@ -190,7 +208,7 @@ export default {
       })
     },
     getCurrentUser() {
-      return JSON.parse(this.$store.getters.getCurrentUser)
+      return this.$store.getters.getCurrentUser
     }
   },
   methods: {
@@ -201,7 +219,8 @@ export default {
         title: 'กำลังประมวลผล',
         showConfirmButton: false,
         position: 'top-end',
-        timer: 2000
+        timer: 2000,
+        timerProgressBar: true
       })
       this.parts = []
       const body = {
@@ -222,7 +241,8 @@ export default {
                 title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
                 text: 'โปรดลองอีกครั้งภายหลัง',
                 confirmButtonColor: '#02b1f5',
-                confirmButtonText: 'ตกลง'
+                confirmButtonText: 'ตกลง',
+                reverseButtons: true
               })
             })
         )
@@ -263,10 +283,11 @@ export default {
           this.$swal.fire({
             icon: 'success',
             toast: true,
-            title: 'เพิ่มรายการเรียบร้อยแล้ว',
+            title: 'เพิ่มรายการสำเร็จ',
             showConfirmButton: false,
             position: 'top-end',
-            timer: 2000
+            timer: 2000,
+            timerProgressBar: true
           })
         })
         .catch((err) => {
@@ -277,33 +298,72 @@ export default {
             title: 'เพิ่มรายการไม่สำเร็จ',
             showConfirmButton: false,
             position: 'top-end',
-            timer: 2000
+            timer: 2000,
+            timerProgressBar: true
           })
         })
     },
     removeBookmark(serial_no) {
-      BookmarkService.removeBookmark(this.getCurrentUser.id, serial_no)
-        .then(() => {
-          this.$swal.fire({
-            icon: 'success',
-            toast: true,
-            title: 'ลบรายการสำเร็จ',
-            showConfirmButton: false,
-            position: 'top-end',
-            timer: 2000
-          })
+      this.$swal
+        .fire({
+          title: 'ต้องการลบรายการนี้?',
+          text: 'คุณสามารถเพิ่มรายการได้อีกครั้งในภายหลัง',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#02b1f5',
+          cancelButtonColor: '#ff4327',
+          confirmButtonText: 'ลบ',
+          cancelButtonText: 'ยกเลิก',
+          reverseButtons: true
         })
-        .catch((err) => {
-          console.log(err)
-          this.$swal.fire({
-            icon: 'error',
-            toast: true,
-            title: 'ลบรายการไม่สำเร็จ',
-            showConfirmButton: false,
-            position: 'top-end',
-            timer: 2000
-          })
+        .then((result) => {
+          if (result.isConfirmed) {
+            BookmarkService.removeBookmark(this.getCurrentUser.id, serial_no)
+              .then(() => {
+                this.$swal.fire({
+                  icon: 'success',
+                  toast: true,
+                  title: 'ลบรายการสำเร็จ',
+                  showConfirmButton: false,
+                  position: 'top-end',
+                  timer: 2000,
+                  timerProgressBar: true
+                })
+              })
+              .catch((err) => {
+                console.log(err)
+                this.$swal.fire({
+                  icon: 'error',
+                  toast: true,
+                  title: 'ลบรายการไม่สำเร็จ',
+                  showConfirmButton: false,
+                  position: 'top-end',
+                  timer: 2000,
+                  timerProgressBar: true
+                })
+              })
+          }
         })
+    },
+    showDetail(item) {
+      console.log(item)
+      this.$swal.fire({
+        title: `<strong>${item.item_name}</strong>`,
+        html: `
+          <p><b>ยี่ห้อ: </b>${item.brand}</p>
+          <p><b>หมายเลขซีเรียล: </b>${item.serial_no}</p>
+          <p><b>กลุ่มสินค้า: </b>${item.item_group ? item.item_group : '-'}</p>
+          <p><b>รายละเอียดการประกอบ: </b>${
+            item.fitment_detail ? item.fitment_detail : '-'
+          }</p>
+          <p><b>ใช้สำหรับรถยนต์ :</b> ${
+            item.car_brand || item.car_model || item.nickname
+              ? `${item.car_brand} ${item.car_model} ${item.nickname}`
+              : '-'
+          } </p>`,
+        showConfirmButton: false,
+        showCloseButton: true
+      })
     }
   }
 }

@@ -10,13 +10,12 @@ export default {
   logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-    localStorage.removeItem('role')
   },
   checkEmailExist(email) {
     return apiClient.post('/auth/check-email', { email: email })
   },
-  updateUserById(data) {
-    return apiClient.post('/auth/update', data)
+  updateInfoByUserId(data) {
+    return apiClient.post('/auth/update-information', data)
   },
   updatePasswordByUserId(data) {
     return apiClient.post('/auth/update-password', data)

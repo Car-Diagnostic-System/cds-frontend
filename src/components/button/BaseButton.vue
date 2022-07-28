@@ -1,7 +1,7 @@
 <template>
   <button
     :type="type"
-    class="flex h-[37px] w-full max-w-[140px] items-center justify-center rounded-md py-[10px] px-6 text-sm font-medium transition duration-300 ease-in-out hover:cursor-pointer disabled:cursor-not-allowed disabled:bg-neutral-100"
+    class="hover:-translate-1 flex h-[37px] w-full max-w-[140px] items-center justify-center rounded-md py-[10px] px-6 text-sm font-medium transition duration-300 ease-in-out hover:cursor-pointer active:scale-105 disabled:cursor-not-allowed disabled:bg-neutral-100"
     :class="[isLoading && 'pointer-events-none']"
     @click="click"
   >

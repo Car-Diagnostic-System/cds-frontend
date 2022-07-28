@@ -170,7 +170,7 @@ export default {
         .checkEmailValid('อีเมลนี้ถูกใช้งานแล้ว'),
       password: yup
         .string()
-        .min(8)
+        .min(8, 'รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร')
         .minUppercase(1, 'รหัสผ่านต้องมีตัวอักษรตัวพิมพ์ใหญ่อย่างน้อย 1 ตัว')
         .minLowercase(1, 'รหัสผ่านต้องมีตัวอักษรตัวพิมพ์เล็กอย่างน้อย 1 ตัว')
         .required('กรุณาใส่รหัสผ่าน'),
@@ -214,7 +214,8 @@ export default {
           title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
           text: 'โปรดลองอีกครั้งภายหลัง',
           confirmButtonColor: '#02b1f5',
-          confirmButtonText: 'ตกลง'
+          confirmButtonText: 'ตกลง',
+          reverseButtons: true
         })
       })
   },
@@ -236,7 +237,8 @@ export default {
           confirmButtonColor: '#02b1f5',
           cancelButtonColor: '#ff4327',
           confirmButtonText: 'ยืนยัน',
-          cancelButtonText: 'ยกเลิก'
+          cancelButtonText: 'ยกเลิก',
+          reverseButtons: true
         })
         .then((res) => {
           if (res.isConfirmed) {
