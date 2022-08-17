@@ -1,17 +1,22 @@
 <template>
   <div
-    class="relative flex flex-col items-center justify-center gap-y-[15px] py-[15px] px-[21px]"
+    class="relative hover:bg-primary-50"
     :class="{ 'border-t-2 border-neutral-300': index != 1 }"
   >
-    <p>
-      ยี่ห้อ <span class="text-black">{{ product.brand }}</span>
-    </p>
-    <p>
-      ประเภท <span class="text-black">{{ product.serial_no }}</span>
-    </p>
-    <p>
-      หมายเลขซีเรียล <span class="text-black">{{ product.serial_no }}</span>
-    </p>
+    <div
+      class="flex cursor-pointer flex-col items-center justify-center gap-y-[15px] py-[15px] px-[21px]"
+      @click="showDetail(product)"
+    >
+      <p>
+        ยี่ห้อ <span class="text-black">{{ product.brand }}</span>
+      </p>
+      <p>
+        ประเภท <span class="text-black">{{ product.serial_no }}</span>
+      </p>
+      <p>
+        หมายเลขซีเรียล <span class="text-black">{{ product.serial_no }}</span>
+      </p>
+    </div>
     <span
       class="absolute right-[21px] top-0 cursor-pointer"
       @click="
@@ -71,6 +76,9 @@ export default {
     removeBookmark(serial_no) {
       this.added.splice(this.added.indexOf(serial_no), 1)
       this.$emit('remove-bookmark', serial_no)
+    },
+    showDetail(product) {
+      this.$emit('show-detail', product)
     }
   }
 }

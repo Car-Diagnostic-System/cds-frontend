@@ -12,13 +12,13 @@
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.DIAGNOSE"
-        v-if="isAuthenticated && isUser"
+        v-if="isAuthenticated && isMember"
         >ประเมินอาการรถยนต์</router-link
       >
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.BOOKMARK"
-        v-if="isAuthenticated && isUser"
+        v-if="isAuthenticated && isMember"
         >รายการโปรด</router-link
       >
       <router-link
@@ -36,42 +36,47 @@
     >
       <span class="mr-2">{{ getUser }}</span>
       <img
-        class="h-[20px] rounded-full object-contain"
+        class="h-[20px] w-[20px] rounded-full bg-white object-contain"
         :src="getCurrentUser.imageProfile"
         v-if="getCurrentUser.imageProfile"
       />
       <img
-        class="h-[20px] rounded-full object-contain"
+        class="h-[20px] w-[20px] rounded-full object-contain"
         src="@/assets/images/no-profile.png"
         v-else
       />
     </div>
+
     <transition name="fadeHeight" mode="out-in">
       <div
-        class="absolute right-9 top-[67px] z-50 hidden h-[100px] w-[300px] flex-col items-center gap-y-3 rounded-b-xl border bg-white text-lg md:flex"
+        class="absolute top-[67px] right-7 z-50 hidden h-full w-full justify-end text-lg md:flex"
         v-if="desktopMenu"
         @click="desktopMenu = !desktopMenu"
       >
-        <div />
-        <router-link
-          class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
-          :to="ROUTE_PATH.ACCOUNT"
-          v-if="isAuthenticated"
-          >ข้อมูลส่วนตัว</router-link
+        <div
+          class="flex h-[100px] w-[300px] flex-col items-center gap-y-3 rounded-b-xl border bg-white shadow-lg"
         >
-        <!--         
+          <div />
+          <router-link
+            class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
+            :to="ROUTE_PATH.ACCOUNT"
+            v-if="isAuthenticated"
+            >ข้อมูลส่วนตัว</router-link
+          >
+          <!--         
         <router-link
           class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
           :to="ROUTE_PATH.INDEXING"
           v-if="isAuthenticated && isAdmin"
           >เพิ่มอาการรถยนต์</router-link
         > -->
-        <span
-          @click="logout"
-          class="cursor-pointer text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
-          v-if="isAuthenticated"
-          >ออกจากระบบ</span
-        >
+          <span
+            @click="logout"
+            class="cursor-pointer text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
+            v-if="isAuthenticated"
+            >ออกจากระบบ</span
+          >
+        </div>
       </div>
     </transition>
 
@@ -83,7 +88,7 @@
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.HOME"
-        ><img class="h-5 object-contain" src="@/assets/images/logo.png"
+        ><img class="h-5 w-5 object-contain" src="@/assets/images/logo.png"
       /></router-link>
     </div>
     <div
@@ -140,14 +145,20 @@
             >ข้อมูลส่วนตัว</router-link
           >
         </div>
-        <div @click="mobileMenu = !mobileMenu" v-if="isAuthenticated && isUser">
+        <div
+          @click="mobileMenu = !mobileMenu"
+          v-if="isAuthenticated && isMember"
+        >
           <router-link
             class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
             :to="ROUTE_PATH.DIAGNOSE"
             >ประเมินอาการรถยนต์</router-link
           >
         </div>
-        <div @click="mobileMenu = !mobileMenu" v-if="isAuthenticated && isUser">
+        <div
+          @click="mobileMenu = !mobileMenu"
+          v-if="isAuthenticated && isMember"
+        >
           <router-link
             class="text-primary-300 transition duration-300 ease-in-out hover:text-neutral-200"
             :to="ROUTE_PATH.BOOKMARK"
@@ -196,21 +207,21 @@ export default {
     isAuthenticated() {
       return this.$store.getters.getCurrentUser
     },
-    isUser() {
-      return this.$store.getters.getRole === ROLE.USER
+    isMember() {
+      return this.$store.getters.getRole === ROLE.MEMBER
     },
     isAdmin() {
       return this.$store.getters.getRole === ROLE.ADMIN
     },
     getUser() {
       return (
-        JSON.parse(this.$store.getters.getCurrentUser).firstname +
+        this.$store.getters.getCurrentUser.firstname +
         ' ' +
-        JSON.parse(this.$store.getters.getCurrentUser).lastname
+        this.$store.getters.getCurrentUser.lastname
       )
     },
     getCurrentUser() {
-      return JSON.parse(this.$store.getters.getCurrentUser)
+      return this.$store.getters.getCurrentUser
     }
   },
   methods: {
@@ -222,6 +233,7 @@ export default {
         title: 'ออกจากระบบเรียบร้อย',
         showConfirmButton: false,
         position: 'top-end',
+        timerProgressBar: true,
         timer: 2000
       })
       setTimeout(() => {

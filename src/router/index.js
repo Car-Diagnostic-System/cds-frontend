@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
+import HomeView from '@/views/home/HomeView.vue'
 import store from '@/store'
 import ShowCase from '@/views/ShowCase.vue'
 import DiagnoseView from '@/views/diagnose/DiagnoseView.vue'
@@ -11,14 +11,20 @@ import AccountLayout from '@/views/account/AccountLayout.vue'
 import AccountInformation from '@/views/account/children/AccountInformation.vue'
 import AccountPassword from '@/views/account/children/AccountPassword.vue'
 import ROLE from '@/constants/role'
-import ROUTE_PATH from '../constants/router'
+import ROUTE_PATH from '@/constants/router'
 import PAGE_TITLE from '@/constants/page-title'
 
 const routes = [
   {
     path: ROUTE_PATH.HOME,
     name: PAGE_TITLE.HOME,
-    component: HomeView
+    component: HomeView,
+    beforeEnter: () => { 
+      if (store.getters.getRole === ROLE.ADMIN) {
+        console.log(ROUTE_PATH.INDEXING)
+        router.push(ROUTE_PATH.INDEXING)
+      }
+    },
   },
   {
     path: ROUTE_PATH.SHOWCASE,
@@ -114,10 +120,10 @@ router.beforeEach((to, from, next) => {
       // NOTE: log still using during the development
       console.log('path name', to.name)
       console.log('isAdmin: ', store.getters.getRole === ROLE.ADMIN)
-      console.log('isUser: ', store.getters.getRole === ROLE.USER)
+      console.log('isMEMBER: ', store.getters.getRole === ROLE.MEMBER)
 
       // NOTE: the user role can access to diagnose, bookmark, account management pages
-      if (store.getters.getRole === ROLE.USER) {
+      if (store.getters.getRole === ROLE.MEMBER) {
         if (
           to.name === PAGE_TITLE.DIAGNOSE ||
           to.name === PAGE_TITLE.BOOKMARK ||

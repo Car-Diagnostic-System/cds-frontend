@@ -90,7 +90,7 @@ export default {
   },
   computed: {
     getCurrentUser() {
-      return JSON.parse(this.$store.getters.getCurrentUser)
+      return this.$store.getters.getCurrentUser
     }
   },
   methods: {
@@ -100,39 +100,40 @@ export default {
         oldPassword: e.password,
         newPassword: e.newPassword
       }
-      AuthService.updatePasswordByUserId(data)
-        .then(() => {
-          this.$swal
-            .fire({
-              title: 'ต้องการลบรายการนี้?',
-              text: 'คุณสามารถเพิ่มรายการได้อีกครั้งในภายหลัง',
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#02b1f5',
-              cancelButtonColor: '#ff4327',
-              confirmButtonText: 'ลบ',
-              cancelButtonText: 'ยกเลิก'
+      this.$swal
+        .fire({
+          title: 'ต้องการเปลี่ยนรหัสผ่าน?',
+          text: 'คุณสามารถแก้ไขได้ภายหลัง',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#02b1f5',
+          cancelButtonColor: '#ff4327',
+          confirmButtonText: 'ยืนยัน',
+          cancelButtonText: 'ยกเลิก',
+          reverseButtons: true
+        })
+        .then((res) => {
+          if (res.isConfirmed) {
+            AuthService.updatePasswordByUserId(data).then(() => {
+              this.$swal
+                .fire({
+                  icon: 'success',
+                  title: 'เปลี่ยนรหัสผ่านสำเร็จ',
+                  text: 'โปรดเข้าสู่ระบบอีกครั้ง',
+                  confirmButtonText: 'ตกลง',
+                  confirmButtonColor: '#02b1f5',
+                  allowEscapeKey: false,
+                  allowOutsideClick: false,
+                  reverseButtons: true
+                })
+                .then((res) => {
+                  if (res.isConfirmed) {
+                    AuthService.logout()
+                    location.reload()
+                  }
+                })
             })
-            .then((res) => {
-              if (res.isConfirmed) {
-                this.$swal
-                  .fire({
-                    icon: 'success',
-                    title: 'เปลี่ยนรหัสผ่านเรียบร้อย',
-                    text: 'โปรดเข้าสู่ระบบอีกครั้ง',
-                    confirmButtonText: 'ตกลง',
-                    confirmButtonColor: '#02b1f5',
-                    allowEscapeKey: false,
-                    allowOutsideClick: false
-                  })
-                  .then((res) => {
-                    if (res.isConfirmed) {
-                      AuthService.logout()
-                      location.reload()
-                    }
-                  })
-              }
-            })
+          }
         })
         .catch(() => {
           this.$swal.fire({

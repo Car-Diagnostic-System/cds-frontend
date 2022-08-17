@@ -92,11 +92,11 @@ export default {
               title: 'เข้าสู่ระบบสำเร็จ',
               showConfirmButton: false,
               position: 'top-end',
+              timerProgressBar: true,
               timer: 2000
             })
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('user', JSON.stringify(res.data.user))
-            localStorage.setItem('role', res.data.user.role)
             setTimeout(() => {
               location.reload()
             }, 2000)
