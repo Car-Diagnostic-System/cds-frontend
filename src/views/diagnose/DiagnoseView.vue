@@ -157,6 +157,7 @@ export default {
         this.cars = res.data
       })
       .catch((err) => {
+        console.log(err);
         if (err.response.status === 403) {
           this.$swal
             .fire({
@@ -235,7 +236,8 @@ export default {
             .then((res) => {
               this.parts = res.data
             })
-            .catch(() => {
+            .catch((err) => {
+              console.log(err)
               this.$swal.fire({
                 icon: 'error',
                 title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
