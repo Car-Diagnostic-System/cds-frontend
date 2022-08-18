@@ -19,12 +19,12 @@ const routes = [
     path: ROUTE_PATH.HOME,
     name: PAGE_TITLE.HOME,
     component: HomeView,
-    beforeEnter: () => { 
+    beforeEnter: () => {
       if (store.getters.getRole === ROLE.ADMIN) {
         console.log(ROUTE_PATH.INDEXING)
         router.push(ROUTE_PATH.INDEXING)
       }
-    },
+    }
   },
   {
     path: ROUTE_PATH.SHOWCASE,
