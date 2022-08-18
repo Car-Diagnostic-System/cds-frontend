@@ -21,7 +21,6 @@ const routes = [
     component: HomeView,
     beforeEnter: () => {
       if (store.getters.getRole === ROLE.ADMIN) {
-        console.log(ROUTE_PATH.INDEXING)
         router.push(ROUTE_PATH.INDEXING)
       }
     }

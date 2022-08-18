@@ -364,8 +364,8 @@ export default {
                         location.reload()
                       }, 2000)
                     })
-                    .catch((e) => {
-                      console.log(e)
+                    .catch((err) => {
+                      console.log(err)
                       this.$swal.fire({
                         icon: 'error',
                         title: 'อัพเดทข้อมูลไม่สำเร็จ',
@@ -388,7 +388,6 @@ export default {
                     ? user.nickname.carId
                     : null
               }
-              console.log(data)
               AuthService.updateInfoByUserId(data)
                 .then((res) => {
                   this.$swal.fire({
@@ -401,8 +400,8 @@ export default {
                     location.reload()
                   }, 2000)
                 })
-                .catch((e) => {
-                  console.log(e)
+                .catch((err) => {
+                  console.log(err)
                   this.$swal.fire({
                     icon: 'error',
                     title: 'อัพเดทข้อมูลไม่สำเร็จ',
