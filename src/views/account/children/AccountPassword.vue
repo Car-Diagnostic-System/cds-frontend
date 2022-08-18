@@ -135,7 +135,8 @@ export default {
             })
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           this.$swal.fire({
             icon: 'error',
             title: 'เปลี่ยนรหัสผ่านไม่สำเร็จ',

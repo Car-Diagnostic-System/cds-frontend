@@ -208,7 +208,8 @@ export default {
       .then((res) => {
         this.cars = res.data
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         this.$swal.fire({
           icon: 'error',
           title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
@@ -265,7 +266,8 @@ export default {
                       this.$router.push(ROUTE_PATH.LOGIN)
                     }, 2000)
                   })
-                  .catch(() => {
+                  .catch((err) => {
+                    console.log(err)
                     this.$swal.fire({
                       icon: 'error',
                       title: 'สมัครสมาชิกไม่สำเร็จ',
@@ -295,7 +297,8 @@ export default {
                     this.$router.push(ROUTE_PATH.LOGIN)
                   }, 2000)
                 })
-                .catch(() => {
+                .catch((err) => {
+                  console.log(err)
                   this.$swal.fire({
                     icon: 'error',
                     title: 'สมัครสมาชิกไม่สำเร็จ',
