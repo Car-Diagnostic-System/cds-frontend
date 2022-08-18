@@ -346,7 +346,6 @@ export default {
         })
     },
     showDetail(item) {
-      console.log(item)
       this.$swal.fire({
         title: `<strong>${item.item_name}</strong>`,
         html: `
