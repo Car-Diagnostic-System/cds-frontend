@@ -7,7 +7,7 @@
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
         :to="ROUTE_PATH.HOME"
-        ><img class="h-[17px] object-contain" src="@/assets/images/logo.png"
+        ><img class="h-[17px] object-contain" src="@/assets/images/logo.png" alt="cds-logo"
       /></router-link>
       <router-link
         class="text-white transition duration-300 ease-in-out hover:text-neutral-200"
