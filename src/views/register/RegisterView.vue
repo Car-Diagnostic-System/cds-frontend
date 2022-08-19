@@ -83,7 +83,7 @@
           :required="values.brand ? true : false"
         />
       </div>
-      <div class="my-[15px] flex justify-center">
+      <div class="my-[15px] flex flex-col gap-y-3 items-center">
         <PrimaryButton
           type="submit"
           :isLoading="isSubmitting"
@@ -100,14 +100,14 @@
           "
           >บันทึก</PrimaryButton
         >
-      </div>
-      <div class="flex justify-center">
-        <span class="mr-1 text-sm text-primary-900">มีบัญชีอยู่แล้ว?</span>
-        <router-link
-          :to="ROUTE_PATH.LOGIN"
-          class="text-sm text-primary-700 underline underline-offset-2"
-          >เข้าสู่ระบบ</router-link
-        >
+        <div class="flex justify-center">
+          <span class="mr-1 text-sm text-primary-900">มีบัญชีอยู่แล้ว?</span>
+          <router-link
+            :to="ROUTE_PATH.LOGIN"
+            class="text-sm text-primary-700 underline underline-offset-2"
+            >เข้าสู่ระบบ</router-link
+          >
+        </div>
       </div>
     </Form>
   </div>
@@ -209,7 +209,7 @@ export default {
         this.cars = res.data
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
         this.$swal.fire({
           icon: 'error',
           title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
