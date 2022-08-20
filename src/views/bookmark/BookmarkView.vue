@@ -3,7 +3,7 @@
     <HeaderText text="รายการโปรด" />
     <div
       class="my-5 flex flex-wrap items-center justify-start md:flex-row"
-      v-if="bookmarks.length"
+      v-if="bookmarks && bookmarks.length"
     >
       <BookmarkItem
         v-for="bookmark in bookmarks"

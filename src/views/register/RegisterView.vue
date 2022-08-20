@@ -83,7 +83,7 @@
           :required="values.brand ? true : false"
         />
       </div>
-      <div class="my-[15px] flex flex-col gap-y-3 items-center">
+      <div class="my-[15px] flex flex-col items-center gap-y-3">
         <PrimaryButton
           type="submit"
           :isLoading="isSubmitting"
