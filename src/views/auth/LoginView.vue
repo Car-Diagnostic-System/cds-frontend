@@ -114,7 +114,7 @@ export default {
           } else {
             this.$swal.fire({
               icon: 'error',
-              title: 'มีบางอย่างผิดพลาด',
+              title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
               text: 'โปรดลองอีกครั้งภายหลัง',
               showConfirmButton: false,
               timer: 2000
