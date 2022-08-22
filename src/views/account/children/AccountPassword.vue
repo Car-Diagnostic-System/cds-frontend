@@ -114,35 +114,47 @@ export default {
         })
         .then((res) => {
           if (res.isConfirmed) {
-            AuthService.updatePasswordByUserId(data).then(() => {
-              this.$swal
-                .fire({
-                  icon: 'success',
-                  title: 'เปลี่ยนรหัสผ่านสำเร็จ',
-                  text: 'โปรดเข้าสู่ระบบอีกครั้ง',
-                  confirmButtonText: 'ตกลง',
-                  confirmButtonColor: '#02b1f5',
-                  allowEscapeKey: false,
-                  allowOutsideClick: false,
-                  reverseButtons: true
-                })
-                .then((res) => {
-                  if (res.isConfirmed) {
-                    AuthService.logout()
-                    location.reload()
-                  }
-                })
-            })
+            AuthService.updatePasswordByUserId(data)
+              .then(() => {
+                this.$swal
+                  .fire({
+                    icon: 'success',
+                    title: 'เปลี่ยนรหัสผ่านสำเร็จ',
+                    text: 'โปรดเข้าสู่ระบบอีกครั้ง',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#02b1f5',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    reverseButtons: true
+                  })
+                  .then((res) => {
+                    if (res.isConfirmed) {
+                      AuthService.logout()
+                      location.reload()
+                    }
+                  })
+              })
+              .catch((err) => {
+                if (err.response.status === 400) {
+                  this.$swal.fire({
+                    icon: 'error',
+                    title: 'เปลี่ยนรหัสผ่านไม่สำเร็จ',
+                    text: 'โปรดตรวจสอบรหัสผ่านเดิม',
+                    showConfirmButton: false,
+                    timer: 2000
+                  })
+                } else {
+                  this.$swal.fire({
+                    icon: 'error',
+                    title: 'เชื่อมต่อฐานข้อมูลไม่สำเร็จ',
+                    text: 'โปรดลองอีกครั้งภายหลัง',
+                    confirmButtonColor: '#02b1f5',
+                    confirmButtonText: 'ตกลง',
+                    reverseButtons: true
+                  })
+                }
+              })
           }
-        })
-        .catch((err) => {
-          console.log(err)
-          this.$swal.fire({
-            icon: 'error',
-            title: 'เปลี่ยนรหัสผ่านไม่สำเร็จ',
-            showConfirmButton: false,
-            timer: 2000
-          })
         })
     }
   }
