@@ -86,8 +86,6 @@
             :part="part"
             :rank="idx + 1"
             :bookmarked="bookmarked"
-            @add-bookmark="addBookmark"
-            @remove-bookmark="removeBookmark"
             @show-detail="showDetail"
           />
         </div>
@@ -277,74 +275,6 @@ export default {
         .model.filter((m) => m.model == e.model.code)
         .map((m) => {
           return { label: m.nickname }
-        })
-    },
-    addBookmark(serial_no) {
-      BookmarkService.addBookmark(this.getCurrentUser.id, serial_no)
-        .then(() => {
-          this.$swal.fire({
-            icon: 'success',
-            toast: true,
-            title: 'เพิ่มรายการสำเร็จ',
-            showConfirmButton: false,
-            position: 'top-end',
-            timer: 2000,
-            timerProgressBar: true
-          })
-        })
-        .catch((err) => {
-          console.log(err)
-          this.$swal.fire({
-            icon: 'error',
-            toast: true,
-            title: 'เพิ่มรายการไม่สำเร็จ',
-            showConfirmButton: false,
-            position: 'top-end',
-            timer: 2000,
-            timerProgressBar: true
-          })
-        })
-    },
-    removeBookmark(serial_no) {
-      this.$swal
-        .fire({
-          title: 'ต้องการลบรายการนี้?',
-          text: 'คุณสามารถเพิ่มรายการได้อีกครั้งในภายหลัง',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#02b1f5',
-          cancelButtonColor: '#ff4327',
-          confirmButtonText: 'ลบ',
-          cancelButtonText: 'ยกเลิก',
-          reverseButtons: true
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            BookmarkService.removeBookmark(this.getCurrentUser.id, serial_no)
-              .then(() => {
-                this.$swal.fire({
-                  icon: 'success',
-                  toast: true,
-                  title: 'ลบรายการสำเร็จ',
-                  showConfirmButton: false,
-                  position: 'top-end',
-                  timer: 2000,
-                  timerProgressBar: true
-                })
-              })
-              .catch((err) => {
-                console.log(err)
-                this.$swal.fire({
-                  icon: 'error',
-                  toast: true,
-                  title: 'ลบรายการไม่สำเร็จ',
-                  showConfirmButton: false,
-                  position: 'top-end',
-                  timer: 2000,
-                  timerProgressBar: true
-                })
-              })
-          }
         })
     },
     showDetail(item) {
