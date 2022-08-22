@@ -33,8 +33,6 @@
             v-for="(product, idx) in part.product"
             :key="idx"
             :bookmarked="bookmarked"
-            @add-bookmark="addBookmark"
-            @remove-bookmark="removeBookmark"
             @show-detail="showDetail"
           />
         </div>
@@ -89,12 +87,6 @@ export default {
         confirmButtonColor: '#02b1f5',
         reverseButtons: true
       })
-    },
-    addBookmark(serial_no) {
-      this.$emit('add-bookmark', serial_no)
-    },
-    removeBookmark(serial_no) {
-      this.$emit('remove-bookmark', serial_no)
     },
     showDetail(item) {
       this.$emit('show-detail', item)

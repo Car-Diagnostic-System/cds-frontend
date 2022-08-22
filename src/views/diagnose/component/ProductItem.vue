@@ -47,6 +47,8 @@
   </div>
 </template>
 <script>
+import BookmarkService from '@/services/BookmarkService.js'
+
 export default {
   name: 'ProductItem',
   props: {
@@ -68,17 +70,92 @@ export default {
       added: this.bookmarked
     }
   },
+  computed: {
+    getCurrentUser() {
+      return this.$store.getters.getCurrentUser
+    }
+  },
   methods: {
-    addBookmark(serial_no) {
-      this.added.push(serial_no)
-      this.$emit('add-bookmark', serial_no)
-    },
-    removeBookmark(serial_no) {
-      this.added.splice(this.added.indexOf(serial_no), 1)
-      this.$emit('remove-bookmark', serial_no)
-    },
+    // addBookmark(serial_no) {
+    //   this.added.push(serial_no)
+    //   this.$emit('add-bookmark', serial_no)
+    // },
+    // removeBookmark(serial_no) {
+    //   this.added.splice(this.added.indexOf(serial_no), 1)
+    //   this.$emit('remove-bookmark', serial_no)
+    // },
     showDetail(product) {
       this.$emit('show-detail', product)
+    },
+    addBookmark(serial_no) {
+      BookmarkService.addBookmark(this.getCurrentUser.id, serial_no)
+        .then(() => {
+          this.added.push(serial_no)
+          this.$swal.fire({
+            icon: 'success',
+            toast: true,
+            title: 'เพิ่มรายการสำเร็จ',
+            showConfirmButton: false,
+            position: 'top-end',
+            timer: 2000,
+            timerProgressBar: true
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$swal.fire({
+            icon: 'error',
+            toast: true,
+            title: 'เพิ่มรายการไม่สำเร็จ',
+            showConfirmButton: false,
+            position: 'top-end',
+            timer: 2000,
+            timerProgressBar: true
+          })
+        })
+    },
+    removeBookmark(serial_no) {
+      this.$swal
+        .fire({
+          title: 'ต้องการลบรายการนี้?',
+          text: 'คุณสามารถเพิ่มรายการได้อีกครั้งในภายหลัง',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#02b1f5',
+          cancelButtonColor: '#ff4327',
+          confirmButtonText: 'ลบ',
+          cancelButtonText: 'ยกเลิก',
+          reverseButtons: true
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            BookmarkService.removeBookmark(this.getCurrentUser.id, serial_no)
+              .then(() => {
+                this.added.splice(this.added.indexOf(serial_no), 1)
+                this.$swal.fire({
+                  icon: 'success',
+                  toast: true,
+                  title: 'ลบรายการสำเร็จ',
+                  showConfirmButton: false,
+                  position: 'top-end',
+                  timer: 2000,
+                  timerProgressBar: true
+                })
+              })
+              .catch((err) => {
+                console.log(err)
+                this.$swal.fire({
+                  icon: 'error',
+                  toast: true,
+                  title: 'ลบรายการไม่สำเร็จ',
+                  showConfirmButton: false,
+                  position: 'top-end',
+                  timer: 2000,
+                  timerProgressBar: true
+                })
+              })
+          }
+        })
     }
   }
 }
