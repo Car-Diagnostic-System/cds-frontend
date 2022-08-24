@@ -231,7 +231,7 @@ export default {
     onSubmit(user) {
       this.$swal
         .fire({
-          title: 'ต้องยืนยันข้อมูลการลงทะเบียนหรือไม่?',
+          title: 'ต้องการยืนยันข้อมูลการลงทะเบียนหรือไม่?',
           text: 'คุณสามารถแก้ไขข้อมูลได้ภายหลัง',
           icon: 'warning',
           showCancelButton: true,
