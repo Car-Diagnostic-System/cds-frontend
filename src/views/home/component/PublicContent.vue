@@ -4,7 +4,7 @@
       class="flex min-h-screen items-start justify-center bg-primary-50 2xl:items-center"
     >
       <div class="flex max-w-[840px] flex-col">
-        <div class="mx-5 flex flex-wrap justify-start">
+        <div class="mx-5 flex flex-wrap justify-items-start">
           <div
             class="flex flex-col content-center justify-center justify-items-center"
           >
