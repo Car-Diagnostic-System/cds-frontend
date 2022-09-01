@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="relative flex min-h-screen items-center justify-center bg-primary-50"
+      class="flex min-h-screen items-start justify-center bg-primary-50 2xl:items-center"
     >
       <div class="flex max-w-[840px] flex-col">
         <div class="mx-5 flex flex-wrap justify-start">
